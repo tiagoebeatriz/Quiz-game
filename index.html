@@ -1,0 +1,75 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Assistir Anúncios</title>
+  <style>
+    body {
+      font-family: Arial;
+      text-align: center;
+      background: #f5f5f5;
+      padding: 40px;
+    }
+    h1 {
+      color: #222;
+    }
+    iframe {
+      width: 300px;
+      height: 250px;
+      border: none;
+      margin: 20px auto;
+      display: block;
+    }
+    button {
+      padding: 15px 30px;
+      font-size: 18px;
+      background-color: green;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    button:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+<body>
+  <h1>Assista aos 5 anúncios para jogar</h1>
+  <p id="status">Anúncios assistidos: 0/5</p>
+  <div id="ads"></div>
+  <button id="startQuiz" onclick="startQuiz()" disabled>Iniciar Quiz</button>
+
+  <script>
+    const totalAds = 5;
+    let adsWatched = 0;
+    const adsContainer = document.getElementById("ads");
+
+    function loadNextAd() {
+      adsContainer.innerHTML = `
+        <iframe src="https://www.profitableratecpm.com/a9jbed7jy4?key=c2a7916e8712767463a0c7e7fae86ec1" onload="onAdWatched()"></iframe>
+      `;
+    }
+
+    function onAdWatched() {
+      adsWatched++;
+      document.getElementById("status").innerText = `Anúncios assistidos: ${adsWatched}/${totalAds}`;
+      if (adsWatched < totalAds) {
+        setTimeout(loadNextAd, 8000); // tempo de exibição do anúncio (8s)
+      } else {
+        document.getElementById("startQuiz").disabled = false;
+        adsContainer.innerHTML = "<p>Você assistiu todos os anúncios! Clique para jogar.</p>";
+      }
+    }
+
+    function startQuiz() {
+      window.location.href = "quiz.html";
+    }
+
+    loadNextAd();
+  </script>
+</body>
+</html>
