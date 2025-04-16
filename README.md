@@ -18,9 +18,9 @@
       color: #fff;
       margin-bottom: 10px;
     }
-    p {
+    p, #contador {
       color: #fff;
-      margin-bottom: 30px;
+      margin-bottom: 15px;
       font-size: 18px;
       text-align: center;
     }
@@ -30,23 +30,12 @@
       padding: 10px;
       border-radius: 12px;
       box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      position: relative;
     }
     iframe {
       border: none;
       width: 300px;
       height: 250px;
       display: block;
-    }
-    .contador {
-      position: absolute;
-      top: 8px;
-      right: 8px;
-      background: #000;
-      color: #fff;
-      padding: 2px 8px;
-      border-radius: 8px;
-      font-size: 14px;
     }
     button {
       padding: 12px 24px;
@@ -67,7 +56,8 @@
 <body>
 
   <h1>Antes de Jogar</h1>
-  <p>Assista aos 5 anúncios abaixo (5 segundos cada) para liberar o acesso ao Quiz Premiado.</p>
+  <p>Para liberar as perguntas do Quiz Premiado, você precisa assistir aos 5 vídeos de anúncios abaixo.</p>
+  <p id="contador">Anúncios assistidos: 0 de 5</p>
 
   <div id="ads"></div>
 
@@ -76,11 +66,11 @@
   <script>
     const adUrl = "https://www.profitableratecpm.com/a9jbed7jy4?key=c2a7916e8712767463a0c7e7fae86ec1";
     const totalAds = 5;
-    const tempoPorAnuncio = 5; // segundos
     let adsAssistidos = 0;
 
     const container = document.getElementById("ads");
     const botao = document.getElementById("btnComecar");
+    const contador = document.getElementById("contador");
 
     for (let i = 0; i < totalAds; i++) {
       const adBox = document.createElement("div");
@@ -89,37 +79,24 @@
       const iframe = document.createElement("iframe");
       iframe.src = adUrl;
 
-      const contador = document.createElement("div");
-      contador.classList.add("contador");
-      contador.textContent = `${tempoPorAnuncio}s`;
+      iframe.onload = () => {
+        adsAssistidos++;
+        contador.innerText = `Anúncios assistidos: ${adsAssistidos} de ${totalAds}`;
+        if (adsAssistidos === totalAds) {
+          botao.disabled = false;
+          botao.classList.add("enabled");
+          botao.innerText = "Ir para o Quiz";
+          botao.style.cursor = "pointer";
+        }
+      };
 
       adBox.appendChild(iframe);
-      adBox.appendChild(contador);
       container.appendChild(adBox);
-
-      let tempoRestante = tempoPorAnuncio;
-      const intervalo = setInterval(() => {
-        tempoRestante--;
-        contador.textContent = `${tempoRestante}s`;
-
-        if (tempoRestante <= 0) {
-          clearInterval(intervalo);
-          contador.textContent = "✔️";
-          adsAssistidos++;
-
-          if (adsAssistidos === totalAds) {
-            botao.disabled = false;
-            botao.classList.add("enabled");
-            botao.innerText = "Ir para o Quiz";
-            botao.style.cursor = "pointer";
-          }
-        }
-      }, 1000);
     }
 
     botao.addEventListener("click", () => {
       if (adsAssistidos === totalAds) {
-        window.location.href = "quiz.html"; // Altere para o seu caminho real
+        window.location.href = "quiz.html"; // Altere para o caminho real do seu quiz
       }
     });
   </script>
