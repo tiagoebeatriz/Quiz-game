@@ -6,7 +6,7 @@
     <title>Jogo de Quiz</title>
 
     <!-- Adicionando o script de anúncio -->
-    <script type='text/javascript' src='//pl26391059.profitableratecpm.com/dc/a9/72/dca972cc07507145ad5241b658496cc3.js'></script>
+    <script type='text/javascript' src='https://www.profitableratecpm.com/a9jbed7jy4?key=c2a7916e8712767463a0c7e7fae86ec1'></script>
 
     <!-- Estilos CSS -->
     <style>
