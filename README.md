@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jogo de Quiz</title>
 
-    <!-- Adicionando o script de anúncio -->
-    <script type='text/javascript' src='https://www.profitableratecpm.com/a9jbed7jy4?key=c2a7916e8712767463a0c7e7fae86ec1'></script>
+    <!-- Script do anúncio -->
+    <script type="text/javascript" id="adsterraScript" src="https://www.profitableratecpm.com/a9jbed7jy4?key=c2a7916e8712767463a0c7e7fae86ec1" defer></script>
 
     <!-- Estilos CSS -->
     <style>
@@ -83,7 +83,7 @@
         <p>Assista aos anúncios para jogar!</p>
 
         <!-- Botões e interação -->
-        <button onclick="watchAd()">Assistir Anúncio (0/5)</button>
+        <button id="watchAdBtn" onclick="watchAd()">Assistir Anúncio (0/5)</button>
         <button id="startBtn" onclick="startGame()" disabled>Começar Quiz</button>
         <button onclick="withdraw()">Solicitar Saque</button>
 
@@ -92,11 +92,6 @@
 
     <script>
         // Configurações iniciais
-        let currentQuestion = 0;
-        let score = 0;
-        let dailyWins = 0;
-        let balance = 0;
-        const maxDailyWins = 10;
         let adsWatched = 0;
         const totalAdsRequired = 5;
 
@@ -116,25 +111,28 @@
             location.reload();
         };
 
+        // Função para assistir o anúncio
         function watchAd() {
             adsWatched++;
-            document.querySelector('button').innerText = `Assistir Anúncio (${adsWatched}/${totalAdsRequired})`;
+            document.getElementById("watchAdBtn").innerText = `Assistir Anúncio (${adsWatched}/${totalAdsRequired})`;
+            
+            // Carregar o anúncio
+            const adScript = document.getElementById("adsterraScript");
+            if (adsWatched <= totalAdsRequired) {
+                adScript.src = adScript.src; // Forçar o carregamento do script do anúncio
+                alert(`Assista ao anúncio ${adsWatched} de ${totalAdsRequired}.`);
+            }
+
+            // Quando o jogador assistir aos 5 anúncios, libera o botão para começar o jogo
             if (adsWatched >= totalAdsRequired) {
                 document.getElementById('startBtn').disabled = false;
-                alert("Anúncios completos! Agora você pode jogar.");
-            } else {
-                alert(`Assista ao anúncio ${adsWatched}/${totalAdsRequired}`);
+                alert("Você assistiu todos os anúncios! Agora você pode jogar.");
             }
         }
 
         function startGame() {
             if (adsWatched < totalAdsRequired) {
                 alert("Você precisa assistir aos 5 anúncios antes de jogar.");
-                return;
-            }
-
-            if (dailyWins >= maxDailyWins) {
-                alert("Você já atingiu o limite de 10 vitórias hoje. Volte amanhã!");
                 return;
             }
 
@@ -164,9 +162,7 @@
                 currentQuestion++;
                 if (currentQuestion === questions.length) {
                     score++;
-                    dailyWins++;
-                    balance++;
-                    alert("Parabéns! Você ganhou $1.00. Seu saldo: $" + balance);
+                    alert("Parabéns! Você ganhou $1.00.");
                     adsWatched = 0;
                 } else {
                     showQuestion();
@@ -174,14 +170,13 @@
             } else {
                 alert("Errou! Voltando para o início. Você deverá assistir os anúncios novamente.");
                 adsWatched = 0;
-                score = 0;
                 currentQuestion = 0;
             }
         }
 
         function withdraw() {
             const now = new Date();
-            const currentDay = now.getDay(); // 3 = quarta-feira
+            const currentDay = now.getDay();
             const today = now.toISOString().split('T')[0];
 
             if (currentDay !== 3) {
@@ -194,7 +189,7 @@
                 return;
             }
 
-            if (balance < 50) {
+            if (score < 50) {
                 alert("Saldo insuficiente. É necessário pelo menos $50 para sacar.");
                 return;
             }
@@ -212,14 +207,14 @@
             }
 
             alert(`Saque de $50 solicitado via ${method}. Entraremos em contato se necessário.`);
-            balance -= 50;
+            score -= 50;
             lastWithdrawalDate = today;
             localStorage.setItem('lastWithdrawalDate', today);
         }
 
         // Atualiza o saldo a cada segundo
         setInterval(() => {
-            document.getElementById("saldo").innerText = `Saldo: $${balance}`;
+            document.getElementById("saldo").innerText = `Saldo: $${score}`;
         }, 1000);
     </script>
 </body>
