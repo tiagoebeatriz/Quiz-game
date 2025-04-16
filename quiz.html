@@ -44,30 +44,28 @@
 
   <script>
     const questions = [
-  {q: "Quem formulou a conjectura de Poincaré?", options: ["Henri Poincaré", "Grigori Perelman", "Isaac Newton", "Alan Turing"], answer: "Grigori Perelman"},
-  {q: "Qual é o elemento mais raro da Terra?", options: ["Frâncio", "Astatínio", "Ródio", "Actínio"], answer: "Frâncio"},
-  {q: "Quem escreveu *A Gaia Ciência*?", options: ["Schopenhauer", "Nietzsche", "Kant", "Heidegger"], answer: "Nietzsche"},
-  {q: "Em que ano ocorreu o primeiro experimento de fissão nuclear controlada?", options: ["1938", "1942", "1945", "1950"], answer: "1942"},
-  {q: "Qual é a equação que representa a transformação de Lorentz?", options: ["x' = x - vt", "x' = γ(x - vt)", "x = x' + vt", "x = x' / γ"], answer: "x' = γ(x - vt)"},
-  {q: "Quem criou o cálculo infinitesimal de forma independente de Newton?", options: ["Descartes", "Leibniz", "Gauss", "Pascal"], answer: "Leibniz"},
-  {q: "Qual país possui a menor taxa de natalidade do mundo atualmente?", options: ["Japão", "Mônaco", "Coreia do Sul", "Itália"], answer: "Coreia do Sul"},
-  {q: "Qual é o nome do paradoxo que afirma que um gato pode estar vivo e morto ao mesmo tempo?", options: ["Paradoxo de Russell", "Paradoxo de Zenão", "Paradoxo de Schrödinger", "Paradoxo de Einstein"], answer: "Paradoxo de Schrödinger"},
-  {q: "Quem escreveu *Tractatus Logico-Philosophicus*?", options: ["Bertrand Russell", "Wittgenstein", "Frege", "Carnap"], answer: "Wittgenstein"},
-  {q: "Qual é o nome da galáxia mais distante já observada?", options: ["GN-z11", "MACS0647-JD", "Icarus", "HD1"], answer: "HD1"},
-  {q: "Quantos elementos químicos naturais existem na Tabela Periódica?", options: ["92", "94", "90", "96"], answer: "94"},
-  {q: "Quem foi o primeiro matemático a provar que existem infinitos números primos?", options: ["Euclides", "Eratóstenes", "Pitágoras", "Tales"], answer: "Euclides"},
-  {q: "Qual é a partícula responsável por dar massa às outras partículas?", options: ["Bóson de Higgs", "Fóton", "Glúon", "Neutrino"], answer: "Bóson de Higgs"},
-  {q: "Qual é o número aproximado de átomos em um ser humano adulto?", options: ["10²³", "10²⁶", "10²⁸", "10³⁰"], answer: "10²⁸"},
-  {q: "Em que obra Nietzsche declara a 'morte de Deus'?", options: ["Assim Falou Zaratustra", "Ecce Homo", "Crepúsculo dos Ídolos", "A Gaia Ciência"], answer: "A Gaia Ciência"},
-  {q: "Qual é o nome do processo de conversão direta de sólido para gás?", options: ["Fusão", "Sublimação", "Evaporação", "Condensação"], answer: "Sublimação"},
-  {q: "Quem desenvolveu a teoria da relatividade geral?", options: ["Galileu Galilei", "Albert Einstein", "Stephen Hawking", "Max Planck"], answer: "Albert Einstein"},
-  {q: "Qual é o termo filosófico para 'conhecimento que não depende da experiência'?", options: ["Empírico", "A posteriori", "A priori", "Dialético"], answer: "A priori"},
-  {q: "Qual é o nome do maior número primo conhecido até 2023?", options: ["2^82,589,933−1", "2^77,232,917−1", "2^61,500,000−1", "2^74,207,281−1"], answer: "2^82,589,933−1"},
-  {q: "Qual é a função do RNA mensageiro no processo de síntese proteica?", options: ["Codificar aminoácidos", "Transportar aminoácidos", "Levar informação genética ao ribossomo", "Formar o núcleo da célula"], answer: "Levar informação genética ao ribossomo"},
-  {q: "Em lógica matemática, o que significa a sigla 'Q.E.D.'?", options: ["Quod Erat Demonstrandum", "Quantum Equation Demonstration", "Queremos Evidência Direta", "Quasi Equilibrated Distribution"], answer: "Quod Erat Demonstrandum"}
-];
-
-    
+      {q: "Quem formulou a conjectura de Poincaré?", options: ["Henri Poincaré", "Grigori Perelman", "Isaac Newton", "Alan Turing"], answer: "Grigori Perelman"},
+      {q: "Qual é o elemento mais raro da Terra?", options: ["Frâncio", "Astatínio", "Ródio", "Actínio"], answer: "Frâncio"},
+      {q: "Quem escreveu *A Gaia Ciência*?", options: ["Schopenhauer", "Nietzsche", "Kant", "Heidegger"], answer: "Nietzsche"},
+      {q: "Em que ano ocorreu o primeiro experimento de fissão nuclear controlada?", options: ["1938", "1942", "1945", "1950"], answer: "1942"},
+      {q: "Qual é a equação que representa a transformação de Lorentz?", options: ["x' = x - vt", "x' = γ(x - vt)", "x = x' + vt", "x = x' / γ"], answer: "x' = γ(x - vt)"},
+      {q: "Quem criou o cálculo infinitesimal de forma independente de Newton?", options: ["Descartes", "Leibniz", "Gauss", "Pascal"], answer: "Leibniz"},
+      {q: "Qual país possui a menor taxa de natalidade do mundo atualmente?", options: ["Japão", "Mônaco", "Coreia do Sul", "Itália"], answer: "Coreia do Sul"},
+      {q: "Qual é o nome do paradoxo que afirma que um gato pode estar vivo e morto ao mesmo tempo?", options: ["Paradoxo de Russell", "Paradoxo de Zenão", "Paradoxo de Schrödinger", "Paradoxo de Einstein"], answer: "Paradoxo de Schrödinger"},
+      {q: "Quem escreveu *Tractatus Logico-Philosophicus*?", options: ["Bertrand Russell", "Wittgenstein", "Frege", "Carnap"], answer: "Wittgenstein"},
+      {q: "Qual é o nome da galáxia mais distante já observada?", options: ["GN-z11", "MACS0647-JD", "Icarus", "HD1"], answer: "HD1"},
+      {q: "Quantos elementos químicos naturais existem na Tabela Periódica?", options: ["92", "94", "90", "96"], answer: "94"},
+      {q: "Quem foi o primeiro matemático a provar que existem infinitos números primos?", options: ["Euclides", "Eratóstenes", "Pitágoras", "Tales"], answer: "Euclides"},
+      {q: "Qual é a partícula responsável por dar massa às outras partículas?", options: ["Bóson de Higgs", "Fóton", "Glúon", "Neutrino"], answer: "Bóson de Higgs"},
+      {q: "Qual é o número aproximado de átomos em um ser humano adulto?", options: ["10²³", "10²⁶", "10²⁸", "10³⁰"], answer: "10²⁸"},
+      {q: "Em que obra Nietzsche declara a 'morte de Deus'?", options: ["Assim Falou Zaratustra", "Ecce Homo", "Crepúsculo dos Ídolos", "A Gaia Ciência"], answer: "A Gaia Ciência"},
+      {q: "Qual é o nome do processo de conversão direta de sólido para gás?", options: ["Fusão", "Sublimação", "Evaporação", "Condensação"], answer: "Sublimação"},
+      {q: "Quem desenvolveu a teoria da relatividade geral?", options: ["Galileu Galilei", "Albert Einstein", "Stephen Hawking", "Max Planck"], answer: "Albert Einstein"},
+      {q: "Qual é o termo filosófico para 'conhecimento que não depende da experiência'?", options: ["Empírico", "A posteriori", "A priori", "Dialético"], answer: "A priori"},
+      {q: "Qual é o nome do maior número primo conhecido até 2023?", options: ["2^82,589,933−1", "2^77,232,917−1", "2^61,500,000−1", "2^74,207,281−1"], answer: "2^82,589,933−1"},
+      {q: "Qual é a função do RNA mensageiro no processo de síntese proteica?", options: ["Codificar aminoácidos", "Transportar aminoácidos", "Levar informação genética ao ribossomo", "Formar o núcleo da célula"], answer: "Levar informação genética ao ribossomo"},
+      {q: "Em lógica matemática, o que significa a sigla 'Q.E.D.'?", options: ["Quod Erat Demonstrandum", "Quantum Equation Demonstration", "Queremos Evidência Direta", "Quasi Equilibrated Distribution"], answer: "Quod Erat Demonstrandum"}
+    ];
 
     const totalQuestions = 5;
     let current = 0;
@@ -82,6 +80,14 @@
       localStorage.setItem("lastVictoryDate", currentDate);
     }
 
+    const randomQuestions = [];
+    while (randomQuestions.length < totalQuestions) {
+      const randomIndex = Math.floor(Math.random() * questions.length);
+      if (!randomQuestions.includes(randomIndex)) {
+        randomQuestions.push(randomIndex);
+      }
+    }
+
     function showQuestion() {
       if (current >= totalQuestions) {
         alert(`Parabéns! Você acertou todas as perguntas e ganhou $1!`);
@@ -89,14 +95,6 @@
         localStorage.setItem("victories", victories);
         window.location.href = "index.html";
         return;
-      }
-
-      const randomQuestions = [];
-      while (randomQuestions.length < totalQuestions) {
-        const randomIndex = Math.floor(Math.random() * questions.length);
-        if (!randomQuestions.includes(randomIndex)) {
-          randomQuestions.push(randomIndex);
-        }
       }
 
       const question = questions[randomQuestions[current]];
@@ -113,41 +111,14 @@
             showQuestion();
           } else {
             alert("Você errou! Precisa assistir os anúncios novamente.");
-            window.location.href = "index.html";
+            window.location.href = "anuncios.html";
           }
         };
         optionsDiv.appendChild(btn);
       });
     }
 
-    function countdownTimer() {
-      const timer = document.getElementById("timer");
-      let timeLeft = 60; // 1 minuto de tempo por pergunta
-      const interval = setInterval(() => {
-        timer.innerText = `Tempo restante: ${timeLeft}s`;
-        timeLeft--;
-        if (timeLeft < 0) {
-          clearInterval(interval);
-          alert("Você ultrapassou o tempo! Precisa assistir os anúncios novamente.");
-          window.location.href = "index.html";
-        }
-      }, 1000);
-    }
-
-    // Se o jogador já atingiu 10 vitórias, bloquear o quiz
-    if (victories >= 10) {
-      alert("Você já atingiu o limite de vitórias por dia.");
-      window.location.href = "index.html";
-    } else {
-      countdownTimer();
-      showQuestion();
-    }
-
-    // Função para reiniciar o quiz ao sair da página
-    window.onbeforeunload = function() {
-      return "Você sairá da página. Quer mesmo sair e perder o progresso?";
-    };
+    showQuestion();
   </script>
-
 </body>
 </html>
