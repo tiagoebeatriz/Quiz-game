@@ -1,226 +1,187 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jogo de Quiz</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz Premiado</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #8EC5FC, #E0C3FC);
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      flex-direction: column;
+    }
 
-    <!-- Adicionando o script de anúncio -->
-    <script type='text/javascript' src='//pl26391059.profitableratecpm.com/dc/a9/72/dca972cc07507145ad5241b658496cc3.js'></script>
+    .container {
+      background: white;
+      padding: 40px;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+      max-width: 400px;
+      width: 90%;
+      text-align: center;
+      animation: fadeIn 1s ease;
+    }
 
-    <!-- Estilos CSS -->
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f0f4f7;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            flex-direction: column;
-        }
+    h1 {
+      color: #333;
+      font-size: 1.8em;
+      margin-bottom: 10px;
+    }
 
-        h1 {
-            color: #333;
-            font-size: 2em;
-            margin-bottom: 20px;
-        }
+    p {
+      color: #555;
+      font-size: 1em;
+      margin-bottom: 20px;
+    }
 
-        p {
-            color: #666;
-            font-size: 1.1em;
-            margin-bottom: 20px;
-        }
+    button {
+      background-color: #4CAF50;
+      color: white;
+      font-size: 1em;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: 0.3s;
+      margin-top: 10px;
+      width: 100%;
+    }
 
-        button {
-            background-color: #4CAF50;
-            color: white;
-            font-size: 1.1em;
-            padding: 15px 32px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            margin: 10px 0;
-            width: 200px;
-        }
+    button:hover {
+      background-color: #388E3C;
+    }
 
-        button:disabled {
-            background-color: #ccc;
-            cursor: not-allowed;
-        }
+    #saldo {
+      font-weight: bold;
+      margin-top: 20px;
+      color: #333;
+    }
 
-        button:hover:not(:disabled) {
-            background-color: #45a049;
-        }
+    .share-btn {
+      background-color: #2196F3;
+      margin-top: 20px;
+    }
 
-        #saldo {
-            font-size: 1.2em;
-            font-weight: bold;
-            color: #333;
-            margin-top: 20px;
-        }
+    .ad-container {
+      margin-top: 20px;
+      padding: 10px;
+      background-color: #f1f1f1;
+      border-radius: 10px;
+    }
 
-        .container {
-            background-color: white;
-            border-radius: 10px;
-            padding: 40px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        }
-
-        .container button {
-            width: 100%;
-        }
-    </style>
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
 </head>
 <body>
-
-    <div class="container">
-        <h1>Bem-vindo ao Quiz!</h1>
-        <p>Assista aos anúncios para jogar!</p>
-
-        <!-- Botões e interação -->
-        <button onclick="watchAd()">Assistir Anúncio (0/5)</button>
-        <button id="startBtn" onclick="startGame()" disabled>Começar Quiz</button>
-        <button onclick="withdraw()">Solicitar Saque</button>
-
-        <p id="saldo">Saldo: $0</p>
+  <div class="container">
+    <h1>Desafio do Quiz</h1>
+    <p>Responda corretamente e ganhe dinheiro real!</p>
+    <div id="pergunta">Carregando pergunta...</div>
+    <div id="respostas"></div>
+    <div id="saldo">Saldo: $0.00</div>
+    <button class="share-btn" onclick="shareGame()">Compartilhar com Amigos</button>
+    
+    <div class="ad-container">
+      <h3>Assista ao anúncio abaixo para continuar jogando:</h3>
+      <iframe src="https://www.profitableratecpm.com/a9jbed7jy4?key=c2a7916e8712767463a0c7e7fae86ec1" width="300" height="250" frameborder="0"></iframe>
     </div>
+  </div>
 
-    <script>
-        // Configurações iniciais
-        let currentQuestion = 0;
-        let score = 0;
-        let dailyWins = 0;
-        let balance = 0;
-        const maxDailyWins = 10;
-        let adsWatched = 0;
-        const totalAdsRequired = 5;
+  <script>
+    // Perguntas muito difíceis sobre temas gerais
+    const perguntas = [
+      { pergunta: "Qual é a fórmula da equação de Schrödinger?", respostas: ["Ψ(x,t) = A e^(iωt)", "Ψ(x,t) = iħ∂/∂t", "Ψ(x,t) = -iħ∇²ψ(x,t)", "Ψ(x,t) = (∇²ψ)/ħ"], correta: 2 },
+      { pergunta: "Qual é o nome do composto que contém um átomo de carbono central ligado a três grupos amina?", respostas: ["Aminoácido", "Amina terciária", "Amina primária", "Amina secundária"], correta: 1 },
+      { pergunta: "Qual é o valor da constante de Hubble em unidades do Sistema Internacional?", respostas: ["70 km/s/Mpc", "73 km/s/Mpc", "68 km/s/Mpc", "75 km/s/Mpc"], correta: 2 },
+      { pergunta: "Quem foi o primeiro imperador do Japão?", respostas: ["Imperador Jimmu", "Imperador Hirohito", "Imperador Taishō", "Imperador Meiji"], correta: 0 },
+      { pergunta: "O que é o Teorema de Gödel sobre incompletude?", respostas: ["Todo sistema matemático é completo", "Nenhum sistema matemático é completo", "Todo sistema é inconsistente", "As equações de Gödel são infundadas"], correta: 1 },
+      // Adicione mais 995 perguntas difíceis aqui
+    ];
 
-        // Controle de datas e saque
-        const today = new Date().toISOString().split('T')[0];
-        let lastPlayDate = localStorage.getItem('lastPlayDate');
-        if (lastPlayDate !== today) {
-            dailyWins = 0;
-            localStorage.setItem('lastPlayDate', today);
-        }
+    let indiceAtual = 0;
+    let saldo = 0;
+    let vitorias = 0;
 
-        let lastWithdrawalDate = localStorage.getItem('lastWithdrawalDate') || null;
+    // Função para embaralhar perguntas e respostas
+    function embaralharArray(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+    }
 
-        // Previne sair da página (simulado)
-        window.onblur = () => {
-            alert("Você saiu da página! Reiniciando jogo...");
-            location.reload();
-        };
+    function mostrarPergunta() {
+      if (vitorias >= 10) {
+        alert("Você atingiu o limite de 10 vitórias. Volte amanhã para jogar novamente.");
+        return;
+      }
 
-        function watchAd() {
-            adsWatched++;
-            document.querySelector('button').innerText = `Assistir Anúncio (${adsWatched}/${totalAdsRequired})`;
-            if (adsWatched >= totalAdsRequired) {
-                document.getElementById('startBtn').disabled = false;
-                alert("Anúncios completos! Agora você pode jogar.");
-            } else {
-                alert(`Assista ao anúncio ${adsWatched}/${totalAdsRequired}`);
-            }
-        }
+      if (indiceAtual >= perguntas.length) {
+        indiceAtual = 0;
+      }
 
-        function startGame() {
-            if (adsWatched < totalAdsRequired) {
-                alert("Você precisa assistir aos 5 anúncios antes de jogar.");
-                return;
-            }
+      // Embaralhar perguntas e respostas
+      embaralharArray(perguntas);
+      const p = perguntas[indiceAtual];
+      
+      // Embaralhar respostas
+      embaralharArray(p.respostas);
 
-            if (dailyWins >= maxDailyWins) {
-                alert("Você já atingiu o limite de 10 vitórias hoje. Volte amanhã!");
-                return;
-            }
+      document.getElementById("pergunta").innerText = p.pergunta;
 
-            currentQuestion = 0;
-            score = 0;
-            showQuestion();
-        }
+      const respostasDiv = document.getElementById("respostas");
+      respostasDiv.innerHTML = "";
+      p.respostas.forEach((r, i) => {
+        const btn = document.createElement("button");
+        btn.innerText = r;
+        btn.onclick = () => verificarResposta(i === p.correta);
+        respostasDiv.appendChild(btn);
+      });
+    }
 
-        function showQuestion() {
-            const questions = [
-                { q: "Qual é o número primo entre 89 e 91?", a: "89" },
-                { q: "Qual é o nome do décimo planeta anão?", a: "Eris" },
-                { q: "Quantos elétrons tem o urânio?", a: "92" },
-                { q: "Quem formulou o paradoxo do gato?", a: "Schrödinger" },
-                { q: "Qual a raiz quadrada de 9801?", a: "99" },
-            ];
+    function verificarResposta(correta) {
+      if (correta) {
+        saldo += 1;
+        vitorias++;
+        alert("Você acertou todas as perguntas! Você ganhou $1.");
+        
+        // Após acertar, o jogador deve assistir os 5 vídeos novamente
+        alert("Você terá que assistir os 5 vídeos novamente antes de continuar.");
+        
+        // Reiniciar o jogo e as perguntas
+        indiceAtual = 0;
+        mostrarPergunta();
+      } else {
+        alert("Resposta errada! Você perdeu tudo e vai recomeçar.");
+        saldo = 0;
+        indiceAtual = 0;
+        mostrarPergunta();
+      }
+    }
 
-            const current = questions[currentQuestion];
-            const answer = prompt(current.q);
+    function shareGame() {
+      if (navigator.share) {
+        navigator.share({
+          title: 'Desafio do Quiz',
+          text: 'Aposte seus conhecimentos e ganhe dinheiro respondendo perguntas!',
+          url: window.location.href
+        }).catch(console.error);
+      } else {
+        prompt("Copie o link e compartilhe:", window.location.href);
+      }
+    }
 
-            if (answer === null) {
-                alert("Jogo cancelado.");
-                return;
-            }
-
-            if (answer.trim().toLowerCase() === current.a.toLowerCase()) {
-                currentQuestion++;
-                if (currentQuestion === questions.length) {
-                    score++;
-                    dailyWins++;
-                    balance++;
-                    alert("Parabéns! Você ganhou $1.00. Seu saldo: $" + balance);
-                    adsWatched = 0;
-                } else {
-                    showQuestion();
-                }
-            } else {
-                alert("Errou! Voltando para o início. Você deverá assistir os anúncios novamente.");
-                adsWatched = 0;
-                score = 0;
-                currentQuestion = 0;
-            }
-        }
-
-        function withdraw() {
-            const now = new Date();
-            const currentDay = now.getDay(); // 3 = quarta-feira
-            const today = now.toISOString().split('T')[0];
-
-            if (currentDay !== 3) {
-                alert("Saques só podem ser feitos às quartas-feiras.");
-                return;
-            }
-
-            if (lastWithdrawalDate === today) {
-                alert("Você já fez um saque esta semana.");
-                return;
-            }
-
-            if (balance < 50) {
-                alert("Saldo insuficiente. É necessário pelo menos $50 para sacar.");
-                return;
-            }
-
-            const method = prompt("Digite o método de saque (pix ou paypal):");
-            if (method !== "pix" && method !== "paypal") {
-                alert("Método inválido.");
-                return;
-            }
-
-            const key = prompt("Digite a chave PIX ou e-mail do PayPal:");
-            if (!key) {
-                alert("Chave inválida.");
-                return;
-            }
-
-            alert(`Saque de $50 solicitado via ${method}. Entraremos em contato se necessário.`);
-            balance -= 50;
-            lastWithdrawalDate = today;
-            localStorage.setItem('lastWithdrawalDate', today);
-        }
-
-        // Atualiza o saldo a cada segundo
-        setInterval(() => {
-            document.getElementById("saldo").innerText = `Saldo: $${balance}`;
-        }, 1000);
-    </script>
+    mostrarPergunta();
+  </script>
 </body>
 </html>
