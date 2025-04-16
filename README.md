@@ -4,18 +4,91 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jogo de Quiz</title>
+
+    <!-- Adicionando o script de anúncio -->
     <script type='text/javascript' src='//pl26391059.profitableratecpm.com/dc/a9/72/dca972cc07507145ad5241b658496cc3.js'></script>
+
+    <!-- Estilos CSS -->
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f4f7;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        p {
+            color: #666;
+            font-size: 1.1em;
+            margin-bottom: 20px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            font-size: 1.1em;
+            padding: 15px 32px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin: 10px 0;
+            width: 200px;
+        }
+
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        button:hover:not(:disabled) {
+            background-color: #45a049;
+        }
+
+        #saldo {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #333;
+            margin-top: 20px;
+        }
+
+        .container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 40px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .container button {
+            width: 100%;
+        }
+    </style>
 </head>
 <body>
-    <h1>Bem-vindo ao Quiz!</h1>
-    <p>Assista aos anúncios para jogar!</p>
 
-    <!-- Botões e interação -->
-    <button onclick="watchAd()">Assistir Anúncio (0/5)</button>
-    <button id="startBtn" onclick="startGame()" disabled>Começar Quiz</button>
-    <button onclick="withdraw()">Solicitar Saque</button>
+    <div class="container">
+        <h1>Bem-vindo ao Quiz!</h1>
+        <p>Assista aos anúncios para jogar!</p>
 
-    <p id="saldo">Saldo: $0</p>
+        <!-- Botões e interação -->
+        <button onclick="watchAd()">Assistir Anúncio (0/5)</button>
+        <button id="startBtn" onclick="startGame()" disabled>Começar Quiz</button>
+        <button onclick="withdraw()">Solicitar Saque</button>
+
+        <p id="saldo">Saldo: $0</p>
+    </div>
 
     <script>
         // Configurações iniciais
