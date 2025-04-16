@@ -1,38 +1,48 @@
-<!-- index.html -->
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Assistir Anúncios</title>
   <style>
     body {
-      font-family: Arial;
+      font-family: Arial, sans-serif;
       text-align: center;
-      background: #f5f5f5;
+      background: linear-gradient(to right, #3a6186, #89253e);
+      color: white;
       padding: 40px;
     }
     h1 {
-      color: #222;
+      font-size: 28px;
     }
-    iframe {
+    #ads iframe {
       width: 300px;
       height: 250px;
       border: none;
       margin: 20px auto;
       display: block;
+      box-shadow: 0 0 10px #000;
+    }
+    #status {
+      font-size: 20px;
+      margin-bottom: 20px;
+    }
+    #timer {
+      font-size: 22px;
+      margin-bottom: 10px;
+      color: yellow;
     }
     button {
       padding: 15px 30px;
-      font-size: 18px;
-      background-color: green;
+      font-size: 20px;
+      background-color: #28a745;
       color: white;
       border: none;
-      border-radius: 10px;
+      border-radius: 12px;
       cursor: pointer;
     }
     button:disabled {
-      background-color: #ccc;
+      background-color: #777;
       cursor: not-allowed;
     }
   </style>
@@ -40,6 +50,7 @@
 <body>
   <h1>Assista aos 5 anúncios para jogar</h1>
   <p id="status">Anúncios assistidos: 0/5</p>
+  <p id="timer">Aguarde 10 segundos...</p>
   <div id="ads"></div>
   <button id="startQuiz" onclick="startQuiz()" disabled>Iniciar Quiz</button>
 
@@ -47,22 +58,35 @@
     const totalAds = 5;
     let adsWatched = 0;
     const adsContainer = document.getElementById("ads");
+    const statusText = document.getElementById("status");
+    const timerText = document.getElementById("timer");
+    const startButton = document.getElementById("startQuiz");
 
     function loadNextAd() {
       adsContainer.innerHTML = `
-        <iframe src="https://www.profitableratecpm.com/a9jbed7jy4?key=c2a7916e8712767463a0c7e7fae86ec1" onload="onAdWatched()"></iframe>
+        <iframe src="https://www.profitableratecpm.com/a9jbed7jy4?key=c2a7916e8712767463a0c7e7fae86ec1"></iframe>
       `;
-    }
+      let secondsLeft = 10;
+      timerText.textContent = `Aguarde ${secondsLeft} segundos...`;
 
-    function onAdWatched() {
-      adsWatched++;
-      document.getElementById("status").innerText = `Anúncios assistidos: ${adsWatched}/${totalAds}`;
-      if (adsWatched < totalAds) {
-        setTimeout(loadNextAd, 8000); // tempo de exibição do anúncio (8s)
-      } else {
-        document.getElementById("startQuiz").disabled = false;
-        adsContainer.innerHTML = "<p>Você assistiu todos os anúncios! Clique para jogar.</p>";
-      }
+      const countdown = setInterval(() => {
+        secondsLeft--;
+        if (secondsLeft > 0) {
+          timerText.textContent = `Aguarde ${secondsLeft} segundos...`;
+        } else {
+          clearInterval(countdown);
+          adsWatched++;
+          statusText.textContent = `Anúncios assistidos: ${adsWatched}/${totalAds}`;
+
+          if (adsWatched < totalAds) {
+            loadNextAd(); // próximo anúncio
+          } else {
+            adsContainer.innerHTML = "<p>Você assistiu todos os anúncios!</p>";
+            timerText.textContent = "Pronto!";
+            startButton.disabled = false;
+          }
+        }
+      }, 1000);
     }
 
     function startQuiz() {
