@@ -22,6 +22,7 @@
       color: #fff;
       margin-bottom: 30px;
       font-size: 18px;
+      text-align: center;
     }
     .ad-container {
       margin-bottom: 20px;
@@ -29,12 +30,23 @@
       padding: 10px;
       border-radius: 12px;
       box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      position: relative;
     }
     iframe {
       border: none;
       width: 300px;
       height: 250px;
       display: block;
+    }
+    .contador {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: #000;
+      color: #fff;
+      padding: 2px 8px;
+      border-radius: 8px;
+      font-size: 14px;
     }
     button {
       padding: 12px 24px;
@@ -55,7 +67,7 @@
 <body>
 
   <h1>Antes de Jogar</h1>
-  <p>Assista aos 5 anúncios abaixo para liberar o acesso ao Quiz Premiado.</p>
+  <p>Assista aos 5 anúncios abaixo (5 segundos cada) para liberar o acesso ao Quiz Premiado.</p>
 
   <div id="ads"></div>
 
@@ -64,6 +76,7 @@
   <script>
     const adUrl = "https://www.profitableratecpm.com/a9jbed7jy4?key=c2a7916e8712767463a0c7e7fae86ec1";
     const totalAds = 5;
+    const tempoPorAnuncio = 5; // segundos
     let adsAssistidos = 0;
 
     const container = document.getElementById("ads");
@@ -76,23 +89,37 @@
       const iframe = document.createElement("iframe");
       iframe.src = adUrl;
 
-      iframe.onload = () => {
-        adsAssistidos++;
-        if (adsAssistidos === totalAds) {
-          botao.disabled = false;
-          botao.classList.add("enabled");
-          botao.innerText = "Ir para o Quiz";
-          botao.style.cursor = "pointer";
-        }
-      };
+      const contador = document.createElement("div");
+      contador.classList.add("contador");
+      contador.textContent = `${tempoPorAnuncio}s`;
 
       adBox.appendChild(iframe);
+      adBox.appendChild(contador);
       container.appendChild(adBox);
+
+      let tempoRestante = tempoPorAnuncio;
+      const intervalo = setInterval(() => {
+        tempoRestante--;
+        contador.textContent = `${tempoRestante}s`;
+
+        if (tempoRestante <= 0) {
+          clearInterval(intervalo);
+          contador.textContent = "✔️";
+          adsAssistidos++;
+
+          if (adsAssistidos === totalAds) {
+            botao.disabled = false;
+            botao.classList.add("enabled");
+            botao.innerText = "Ir para o Quiz";
+            botao.style.cursor = "pointer";
+          }
+        }
+      }, 1000);
     }
 
     botao.addEventListener("click", () => {
       if (adsAssistidos === totalAds) {
-        window.location.href = "quiz.html"; // Altere para o caminho real do seu quiz
+        window.location.href = "quiz.html"; // Altere para o seu caminho real
       }
     });
   </script>
