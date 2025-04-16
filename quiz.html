@@ -1,228 +1,155 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Quiz Super Difícil</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz Difícil</title>
   <style>
     body {
-      font-family: Arial;
-      padding: 40px;
-      background: #fffde7;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #1f4037, #99f2c8);
       color: #333;
+      padding: 20px;
       text-align: center;
     }
-    h2 {
-      font-size: 24px;
+    .question {
+      margin-bottom: 20px;
     }
-    .options button, #startBtn {
+    .answers button {
       display: block;
       margin: 10px auto;
       padding: 10px 20px;
-      background-color: #6200ea;
+      font-size: 16px;
+      background-color: #28a745;
       color: white;
       border: none;
       border-radius: 8px;
       cursor: pointer;
-      font-size: 16px;
     }
-    .options button:hover, #startBtn:hover {
-      background-color: #3700b3;
-    }
-    .timer {
+    #score, #cash, #paypalRequest {
+      margin-top: 20px;
       font-size: 18px;
-      color: red;
     }
-    #adContainer {
-      margin-bottom: 20px;
+    #quiz, #final, #paypalRequest {
+      display: none;
     }
   </style>
 </head>
 <body>
-
-  <h1>Quiz Super Difícil</h1>
-  <p><strong>⚠️ Aviso:</strong> Se sair da página, você perde tudo! Assista aos 5 anúncios abaixo para liberar o quiz. Cada anúncio tem som e efeito visual.</p>
-
-  <div id="adContainer">
-    <h2 id="adText">Anúncio 1 de 5</h2>
-    <div style="width:300px;height:250px;background:#ccc;margin:20px auto;display:flex;align-items:center;justify-content:center;animation:pulse 1s infinite;">
-      <span>🎬 Anúncio</span>
-    </div>
-    <audio id="adSound" src="https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg"></audio>
-    <button id="nextAdBtn">Próximo Anúncio</button>
+  <h1>Desafio do Conhecimento</h1>
+  <div id="adsMessage">
+    <p>Você precisa assistir ou clicar em 5 anúncios antes de jogar!</p>
+    <button onclick="location.href='anuncios.html'">Ir para os anúncios</button>
   </div>
 
-  <button id="startBtn" style="display:none;">Começar Quiz</button>
+  <div id="quiz">
+    <div id="questionBox" class="question"></div>
+    <div id="answerButtons" class="answers"></div>
+  </div>
 
-  <h2 id="question" style="display:none;">Carregando...</h2>
-  <div class="options" id="options"></div>
-  <div id="timer" class="timer"></div>
+  <div id="final">
+    <h2>Parabéns! Você acertou as 5 perguntas!</h2>
+    <p id="pointsEarned"></p>
+    <button onclick="showMoreAds()">Assistir 2 anúncios para continuar</button>
+  </div>
+
+  <div id="score"></div>
+  <div id="cash"></div>
+
+  <div id="paypalRequest">
+    <h3>Solicitar saque</h3>
+    <p>Você atingiu 10.000 pontos! Preencha o formulário abaixo:</p>
+    <input type="email" id="paypalEmail" placeholder="Seu e-mail do PayPal"><br><br>
+    <button onclick="submitPayPal()">Solicitar pagamento</button>
+    <p id="paymentInfo"></p>
+  </div>
+
+  <button onclick="shareSite()">Compartilhar com amigos</button>
 
   <script>
-    const adText = document.getElementById("adText");
-    const nextAdBtn = document.getElementById("nextAdBtn");
-    const startBtn = document.getElementById("startBtn");
-    const adSound = document.getElementById("adSound");
-    let adCount = 1;
-
-    nextAdBtn.onclick = () => {
-      adSound.play();
-      adCount++;
-      if (adCount <= 5) {
-        adText.innerText = `Anúncio ${adCount} de 5`;
-      } else {
-        document.getElementById("adContainer").style.display = "none";
-        startBtn.style.display = "block";
-      }
-    };
-
-    startBtn.onclick = () => {
-      startBtn.style.display = "none";
-      document.getElementById("question").style.display = "block";
-      showQuestion();
-    };
-
-    window.onblur = () => {
-      alert("Você saiu da página! Jogo encerrado.");
-      window.location.reload();
-    };
-
-    const questions = [/* suas perguntas aqui (omitidas por brevidade) */
-    
-  {q: "Qual é o nome do único elemento químico que pode existir naturalmente em todas as formas de matéria ao mesmo tempo?", options: ["Carbono", "Ferro", "Água", "Bismuto"], answer: "Água"},
-  {q: "Qual planeta do Sistema Solar tem o dia mais longo em relação ao seu ano?", options: ["Vênus", "Mercúrio", "Júpiter", "Netuno"], answer: "Vênus"},
-  {q: "Em que século foi escrita a obra *Summa Theologica* de Tomás de Aquino?", options: ["Século XII", "Século XIII", "Século XIV", "Século XI"], answer: "Século XIII"},
-  {q: "Qual é o nome do matemático indiano que desenvolveu teorias avançadas sem formação formal?", options: ["Brahmagupta", "Ramanujan", "Aryabhata", "Bhaskara"], answer: "Ramanujan"},
-  {q: "Qual é o nome do ponto imaginário onde a gravidade de um buraco negro se torna infinita?", options: ["Horizonte de eventos", "Singularidade", "Limite de Schwarzschild", "Núcleo gravitacional"], answer: "Singularidade"},
-  {q: "Quem escreveu a obra *O Ser e o Nada*?", options: ["Nietzsche", "Sartre", "Camus", "Heidegger"], answer: "Sartre"},
-  {q: "Qual filósofo propôs o conceito de 'eterno retorno'?", options: ["Kierkegaard", "Nietzsche", "Platão", "Agostinho"], answer: "Nietzsche"},
-  {q: "Quantos segundos há em um ano bissexto?", options: ["31.536.000", "31.622.400", "31.536.400", "31.622.000"], answer: "31.622.400"},
-  {q: "Qual é a única espécie de mamífero capaz de voar?", options: ["Morcego", "Esquilo-voador", "Planador-do-açúcar", "Lêmure"], answer: "Morcego"},
-  {q: "Qual o nome da galáxia que está em rota de colisão com a Via Láctea?", options: ["Galáxia do Triângulo", "Andrômeda", "NGC 1300", "M87"], answer: "Andrômeda"},
-  {q: "Qual é o número de Graham?", options: ["Número usado em matemática para limites superiores", "Número atômico do grafeno", "Código quântico do carbono", "Valor da constante de Planck"], answer: "Número usado em matemática para limites superiores"},
-  {q: "Qual substância tem o menor ponto de fusão conhecido?", options: ["Hélio", "Hidrogênio", "Neônio", "Oxigênio"], answer: "Hélio"},
-  {q: "Quem foi o autor da equação da onda?", options: ["Euler", "Fourier", "D’Alembert", "Laplace"], answer: "D’Alembert"},
-  {q: "Qual foi a primeira linguagem de programação da história?", options: ["Fortran", "Assembly", "Ada", "Plankalkül"], answer: "Plankalkül"},
-  {q: "Qual imperador romano tornou o cristianismo a religião oficial do Império?", options: ["Constantino", "Teodósio I", "Nero", "Juliano"], answer: "Teodósio I"},
-  {q: "Em qual país surgiu o conceito de zero como número?", options: ["Grécia", "Índia", "China", "Egito"], answer: "Índia"},
-  {q: "Qual animal possui o maior número de corações?", options: ["Polvo", "Lula", "Minhoca", "Girino"], answer: "Minhoca"},
-  {q: "Qual é o idioma artificial mais falado no mundo?", options: ["Esperanto", "Klingon", "Interlíngua", "Volapük"], answer: "Esperanto"},
-  {q: "Quem é considerado o pai da microbiologia?", options: ["Robert Koch", "Louis Pasteur", "Antonie van Leeuwenhoek", "Joseph Lister"], answer: "Antonie van Leeuwenhoek"},
-  {q: "O que mede a constante de Avogadro?", options: ["Átomos por mol", "Energia por partícula", "Gravidade por massa", "Carga elétrica"], answer: "Átomos por mol"},
-  {q: "Qual planeta tem o campo magnético mais forte?", options: ["Terra", "Saturno", "Júpiter", "Netuno"], answer: "Júpiter"},
-  {q: "Quem escreveu *Meditações Metafísicas*?", options: ["Descartes", "Kant", "Hume", "Leibniz"], answer: "Descartes"},
-  {q: "O que é uma supernova tipo Ia?", options: ["Explosão de uma estrela de nêutrons", "Colapso de buraco negro", "Explosão de anã branca em sistema binário", "Formação de estrela gigante"], answer: "Explosão de anã branca em sistema binário"},
-  {q: "Quem é o autor da obra *O Anti-Édipo*?", options: ["Foucault", "Deleuze e Guattari", "Baudrillard", "Lacan"], answer: "Deleuze e Guattari"},
-  {q: "Qual é o nome do paradoxo que afirma que há mais infinitos do que apenas um?", options: ["Paradoxo de Russell", "Paradoxo de Hilbert", "Paradoxo de Cantor", "Paradoxo de Banach-Tarski"], answer: "Paradoxo de Cantor"},
-  {q: "Qual é a única partícula subatômica que pode atravessar a Terra quase sem interação?", options: ["Fóton", "Neutrino", "Glúon", "Elétron"], answer: "Neutrino"},
-  {q: "Qual molécula armazena energia nas células?", options: ["DNA", "ATP", "RNA", "NADH"], answer: "ATP"},
-  {q: "Quem formulou a ideia de *panoptismo*?", options: ["Baudrillard", "Foucault", "Hobbes", "Arendt"], answer: "Foucault"},
-  {q: "Qual país possui o maior número de idiomas falados?", options: ["Índia", "Indonésia", "Papua-Nova Guiné", "Nigéria"], answer: "Papua-Nova Guiné"},
-  {q: "Quem foi o último imperador do Império Bizantino?", options: ["Justiniano II", "Basílio II", "Constantino XI", "Alexios I"], answer: "Constantino XI"},
-  {q: "Qual estrutura cerebral está mais envolvida com o processamento de emoções?", options: ["Hipocampo", "Córtex pré-frontal", "Amígdala", "Tálamo"], answer: "Amígdala"},
-  {q: "Quantos dígitos tem o maior número primo conhecido até 2023?", options: ["10 milhões", "15 milhões", "24 milhões", "30 milhões"], answer: "24 milhões"},
-  {q: "Quem descobriu o núcleo da célula?", options: ["Hooke", "Schwann", "Brown", "Virchow"], answer: "Brown"},
-  {q: "Qual país foi o último a abolir oficialmente a escravidão?", options: ["Brasil", "Arábia Saudita", "Mauritânia", "Índia"], answer: "Mauritânia"},
-  {q: "Qual é a função do tRNA na célula?", options: ["Transportar aminoácidos", "Produzir DNA", "Codificar proteínas", "Eliminar toxinas"], answer: "Transportar aminoácidos"},
-  {q: "Em qual livro foi proposta pela primeira vez a Seleção Natural?", options: ["Origem das Espécies", "Diário de Viagem", "A Descendência do Homem", "O Gênesis"], answer: "Origem das Espécies"},
-  {q: "Qual filósofo influenciou diretamente Freud com o conceito de inconsciente coletivo?", options: ["Kant", "Nietzsche", "Jung", "Schopenhauer"], answer: "Schopenhauer"},
-  {q: "Quem cunhou o termo 'Big Bang'?", options: ["Hubble", "Einstein", "Lemaître", "Fred Hoyle"], answer: "Fred Hoyle"},
-  {q: "Qual o nome do livro que contém a primeira definição sistemática da álgebra?", options: ["Almagesto", "Elementos", "Al-Kitāb al-Mukhtaṣar fī ḥisāb al-jabr waʾl-muqābala", "Liber Abaci"], answer: "Al-Kitāb al-Mukhtaṣar fī ḥisāb al-jabr waʾl-muqābala"},
-  {q: "O que é o 'efeito fotoelétrico'?", options: ["Produção de calor pelo atrito", "Emissão de elétrons por luz incidente", "Distorção de ondas gravitacionais", "Aceleração de partículas no vácuo"], answer: "Emissão de elétrons por luz incidente"},
-  {q: "Qual artista renascentista estudou o voo dos pássaros?", options: ["Michelangelo", "Leonardo da Vinci", "Donatello", "Rafael"], answer: "Leonardo da Vinci"},
-  {q: "Qual teoria filosófica afirma que só se pode conhecer o que se experimenta pelos sentidos?", options: ["Idealismo", "Empirismo", "Racionalismo", "Solipsismo"], answer: "Empirismo"},
-  {q: "Quem formulou a hipótese Gaia?", options: ["Carl Sagan", "James Lovelock", "Stephen Hawking", "Richard Dawkins"], answer: "James Lovelock"},
-  {q: "Qual estrutura do DNA foi descoberta por Watson e Crick?", options: ["Dímero helicoidal", "Dupla hélice", "Anel de bases", "Código triplo"], answer: "Dupla hélice"},
-  {q: "Qual é o termo para a fusão de dois átomos leves em um mais pesado?", options: ["Fissão", "Fusão nuclear", "Radioatividade", "Ionização"], answer: "Fusão nuclear"},
-  {q: "Qual animal pode viver mais de 500 anos?", options: ["Baleia-da-Groenlândia", "Esponja-do-mar", "Medusa Turritopsis", "Tubérculo do mar"], answer: "Esponja-do-mar"},
-  {q: "Qual é a velocidade teórica máxima de uma partícula com massa?", options: ["Velocidade da luz", "Infinita", "Zero", "Velocidade de escape"], answer: "Velocidade da luz"}
-];
-
+    const allQuestions = [
+      { q: "Quem foi o primeiro matemático a usar o cálculo infinitesimal?", a: ["Newton", "Euler", "Leibniz", "Gauss"], c: 2 },
+      // ... +49 perguntas difíceis aqui no mesmo formato
     ];
 
-    const totalQuestions = 5;
-    let current = 0;
-    let correctAnswers = 0;
-    let victories = parseInt(localStorage.getItem("victories")) || 0;
-    const lastVictoryDate = localStorage.getItem("lastVictoryDate");
-    const currentDate = new Date().toLocaleDateString();
+    let currentQuestion = 0;
+    let score = 0;
+    let roundPoints = 0;
 
-    if (lastVictoryDate !== currentDate) {
-      victories = 0;
-      localStorage.setItem("victories", victories);
-      localStorage.setItem("lastVictoryDate", currentDate);
-    }
-
-    const randomQuestions = [];
-    while (randomQuestions.length < totalQuestions) {
-      const randomIndex = Math.floor(Math.random() * questions.length);
-      if (!randomQuestions.includes(randomIndex)) {
-        randomQuestions.push(randomIndex);
-      }
+    function startQuiz() {
+      document.getElementById("adsMessage").style.display = "none";
+      document.getElementById("quiz").style.display = "block";
+      score = parseInt(localStorage.getItem("quizScore") || 0);
+      showQuestion();
     }
 
     function showQuestion() {
-      if (victories >= 30) {
-        alert("Você atingiu o limite de $30 hoje. Volte amanhã!");
-        window.location.href = "index.html";
-        return;
+      const questions = [...allQuestions].sort(() => 0.5 - Math.random()).slice(0, 5);
+      currentQuestion = 0;
+      roundPoints = 0;
+
+      function loadQuestion(index) {
+        const q = questions[index];
+        document.getElementById("questionBox").innerText = q.q;
+        const answers = document.getElementById("answerButtons");
+        answers.innerHTML = "";
+        q.a.forEach((alt, i) => {
+          const btn = document.createElement("button");
+          btn.innerText = alt;
+          btn.onclick = () => {
+            if (i === q.c) {
+              currentQuestion++;
+              if (currentQuestion < 5) loadQuestion(currentQuestion);
+              else {
+                roundPoints = 1;
+                score += roundPoints;
+                localStorage.setItem("quizScore", score);
+                document.getElementById("quiz").style.display = "none";
+                document.getElementById("final").style.display = "block";
+                document.getElementById("pointsEarned").innerText = `Você ganhou ${roundPoints} ponto.`;
+                updateScore();
+              }
+            } else {
+              alert("Errou! Você precisa assistir novamente os anúncios.");
+              location.href = "anuncios.html";
+            }
+          };
+          answers.appendChild(btn);
+        });
       }
+      loadQuestion(currentQuestion);
+    }
 
-      if (current >= totalQuestions) {
-        alert("Parabéns! Você acertou todas as perguntas e ganhou $1!");
-        victories++;
-        localStorage.setItem("victories", victories);
-        localStorage.setItem("lastVictoryDate", currentDate);
+    function showMoreAds() {
+      location.href = "anuncios.html";
+    }
 
-        // controle de saque semanal
-        const lastWithdrawDate = localStorage.getItem("lastWithdrawDate");
-        const withdrawAmount = parseInt(localStorage.getItem("withdrawAmount")) || 0;
-        const week = new Date();
-        const currentWeek = `${week.getFullYear()}-W${Math.ceil(week.getDate()/7)}`;
-        if (lastWithdrawDate !== currentWeek) {
-          localStorage.setItem("withdrawAmount", 1);
-          localStorage.setItem("lastWithdrawDate", currentWeek);
-        } else if (withdrawAmount < 50) {
-          localStorage.setItem("withdrawAmount", withdrawAmount + 1);
-        } else {
-          alert("Limite de saque semanal atingido ($50).");
-        }
-
-        window.location.href = "index.html";
-        return;
+    function updateScore() {
+      document.getElementById("score").innerText = `Saldo de pontos: ${score}`;
+      document.getElementById("cash").innerText = `Equivalente em dólar: US$ ${(score * 0.001).toFixed(3)}`;
+      if (score >= 10000) {
+        document.getElementById("paypalRequest").style.display = "block";
       }
+    }
 
-      const question = questions[randomQuestions[current]];
-      document.getElementById("question").innerText = question.q;
-      const optionsDiv = document.getElementById("options");
-      optionsDiv.innerHTML = "";
-      question.options.forEach(opt => {
-        const btn = document.createElement("button");
-        btn.innerText = opt;
-        btn.onclick = () => {
-          if (opt === question.answer) {
-            current++;
-            correctAnswers++;
-            showQuestion();
-          } else {
-            alert("Você errou! Precisa assistir os anúncios novamente.");
-            window.location.href = "index.html";
-          }
-        };
-        optionsDiv.appendChild(btn);
+    function submitPayPal() {
+      const email = document.getElementById("paypalEmail").value;
+      const amount = (score * 0.001).toFixed(2);
+      document.getElementById("paymentInfo").innerText = `Enviar US$ ${amount} para ${email}`;
+      alert("Solicitação enviada. O desenvolvedor enviará manualmente o pagamento.");
+    }
+
+    function shareSite() {
+      const shareUrl = window.location.href;
+      navigator.clipboard.writeText(shareUrl).then(() => {
+        alert("Link copiado! Compartilhe com seus amigos.");
       });
     }
 
-    // animação nos anúncios
-    const style = document.createElement('style');
-    style.innerHTML = `
-      @keyframes pulse {
-        0% { box-shadow: 0 0 0 0 rgba(98, 0, 234, 0.4); }
-        70% { box-shadow: 0 0 0 10px rgba(98, 0, 234, 0); }
-        100% { box-shadow: 0 0 0 0 rgba(98, 0, 234, 0); }
-      }
-    `;
-    document.head.appendChild(style);
+    // Executar após retorno da página de anúncios
+    if (window.location.href.includes("quiz.html")) {
+      startQuiz();
+    }
   </script>
 </body>
 </html>
