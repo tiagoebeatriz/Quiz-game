@@ -1,10 +1,9 @@
-<!-- quiz.html -->
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Quiz Difícil</title>
+  <title>Quiz Super Difícil</title>
   <style>
     body {
       font-family: Arial;
@@ -30,6 +29,10 @@
     .options button:hover {
       background-color: #3700b3;
     }
+    .timer {
+      font-size: 18px;
+      color: red;
+    }
   </style>
 </head>
 <body>
@@ -37,53 +40,364 @@
   <h1>Quiz Super Difícil</h1>
   <h2 id="question">Carregando...</h2>
   <div class="options" id="options"></div>
+  <div id="timer" class="timer"></div>
 
   <script>
     const questions = [
+      {q: "Quem formulou a conjectura de Poincaré?", options: ["Henri Poincaré", "Grigori Perelman", "Isaac Newton", "Alan Turing"], answer: "Grigori Perelman"},
+      {q: "Qual é o elemento mais raro da Terra?", options: ["Frâncio", "Astatínio", "Ródio", "Actínio"], answer: "Frâncio"},
+      {q: "Quem escreveu *A Gaia Ciência*?", options: ["Schopenhauer", "Nietzsche", "Kant", "Heidegger"], answer: "Nietzsche"},
+      {q: "Em que ano ocorreu o primeiro experimento de fissão nuclear controlada?", options: ["1938", "1942", "1945", "1950"], answer: "1942"},
       {
-        q: "Quem formulou a conjectura de Poincaré?",
-        options: ["Henri Poincaré", "Grigori Perelman", "Isaac Newton", "Alan Turing"],
-        answer: "Grigori Perelman"
-      },
-      {
-        q: "Qual é o elemento mais raro da Terra?",
-        options: ["Frâncio", "Astatínio", "Ródio", "Actínio"],
-        answer: "Frâncio"
-      },
-      {
-        q: "Quem escreveu *A Gaia Ciência*?",
-        options: ["Schopenhauer", "Nietzsche", "Kant", "Heidegger"],
-        answer: "Nietzsche"
-      },
-      {
-        q: "Em que ano ocorreu o primeiro experimento de fissão nuclear controlada?",
-        options: ["1938", "1942", "1945", "1950"],
-        answer: "1942"
-      }
-      // <- aqui você pode adicionar mais perguntas (vou te ajudar a colocar 100 depois)
+  q: "Quem é o responsável pela teoria da relatividade geral?",
+  options: ["Isaac Newton", "Max Planck", "Albert Einstein", "Niels Bohr"],
+  answer: "Albert Einstein"
+},
+{
+  q: "Qual é o maior planeta do Sistema Solar?",
+  options: ["Júpiter", "Saturno", "Urano", "Netuno"],
+  answer: "Júpiter"
+},
+{
+  q: "Quem formulou a teoria das cordas?",
+  options: ["Edward Witten", "Alan Turing", "John Nash", "Stephen Hawking"],
+  answer: "Edward Witten"
+},
+{
+  q: "Em que ano foi criado o primeiro computador eletrônico digital?",
+  options: ["1937", "1941", "1945", "1950"],
+  answer: "1941"
+},
+{
+  q: "Qual é o nome da partícula subatômica descoberta por Murray Gell-Mann?",
+  options: ["Quark", "Elétron", "Neutrino", "Fóton"],
+  answer: "Quark"
+},
+{
+  q: "Quem escreveu o romance '1984'?",
+  options: ["Aldous Huxley", "George Orwell", "Ray Bradbury", "Philip K. Dick"],
+  answer: "George Orwell"
+},
+{
+  q: "O que é a 'Partícula de Deus'?",
+  options: ["Neutrino", "Bóson de Higgs", "Elétron", "Quark"],
+  answer: "Bóson de Higgs"
+},
+{
+  q: "Quem descobriu a penicilina?",
+  options: ["Marie Curie", "Albert Einstein", "Louis Pasteur", "Alexander Fleming"],
+  answer: "Alexander Fleming"
+},
+{
+  q: "Qual é a fórmula da água?",
+  options: ["CO2", "O2", "H2O", "NaCl"],
+  answer: "H2O"
+},
+{
+  q: "Em que ano o homem pisou na Lua pela primeira vez?",
+  options: ["1967", "1969", "1971", "1973"],
+  answer: "1969"
+},
+{
+  q: "Quem desenvolveu a primeira vacina contra a varíola?",
+  options: ["Louis Pasteur", "Edward Jenner", "Alexander Fleming", "Joseph Lister"],
+  answer: "Edward Jenner"
+},
+{
+  q: "Quem foi o primeiro imperador da China?",
+  options: ["Qin Shi Huang", "Liu Bang", "Han Wudi", "Cao Cao"],
+  answer: "Qin Shi Huang"
+},
+{
+  q: "Em qual país foi descoberto o famoso Código de Hammurabi?",
+  options: ["Egito", "Mesopotâmia", "Pérsia", "Grécia"],
+  answer: "Mesopotâmia"
+},
+{
+  q: "Quem foi o filósofo grego conhecido como o 'pai da filosofia ocidental'?",
+  options: ["Sócrates", "Platão", "Aristóteles", "Heráclito"],
+  answer: "Sócrates"
+},
+{
+  q: "Qual é o nome da teoria matemática que descreve o comportamento dos buracos negros?",
+  options: ["Teoria da Relatividade Geral", "Teoria Quântica", "Teoria das Cordas", "Teoria da Gravitação Universal"],
+  answer: "Teoria da Relatividade Geral"
+},
+{
+  q: "Qual é o maior oceano do mundo?",
+  options: ["Oceano Atlântico", "Oceano Índico", "Oceano Ártico", "Oceano Pacífico"],
+  answer: "Oceano Pacífico"
+},
+{
+  q: "Quem pintou o quadro 'A Última Ceia'?",
+  options: ["Vincent van Gogh", "Pablo Picasso", "Leonardo da Vinci", "Michelangelo"],
+  answer: "Leonardo da Vinci"
+},
+{
+  q: "O que é a 'Teoria da Evolução'?",
+  options: ["Teoria que explica o surgimento do Universo", "Teoria que explica a origem da vida", "Teoria que descreve a adaptação das espécies ao longo do tempo", "Teoria que explica a formação dos planetas"],
+  answer: "Teoria que descreve a adaptação das espécies ao longo do tempo"
+},
+{
+  q: "Qual é o maior animal terrestre?",
+  options: ["Girafa", "Elefante africano", "Rinoceronte", "Hipopótamo"],
+  answer: "Elefante africano"
+},
+{
+  q: "Quem escreveu o livro 'O Principe'?",
+  options: ["Maquiavel", "Tomás de Aquino", "Platão", "Aristóteles"],
+  answer: "Maquiavel"
+}
+{
+  q: "Qual é a principal teoria que descreve a origem do Universo?",
+  options: ["Teoria do Big Bang", "Teoria da Gravitação Universal", "Teoria das Cordas", "Teoria da Relatividade Geral"],
+  answer: "Teoria do Big Bang"
+},
+{
+  q: "Quem foi o filósofo que escreveu 'O Ser e o Nada'?",
+  options: ["Martin Heidegger", "Jean-Paul Sartre", "Immanuel Kant", "Friedrich Nietzsche"],
+  answer: "Jean-Paul Sartre"
+},
+{
+  q: "Quem formulou a teoria da evolução das espécies?",
+  options: ["Charles Darwin", "Gregor Mendel", "Louis Pasteur", "Carl Linnaeus"],
+  answer: "Charles Darwin"
+},
+{
+  q: "Qual é o nome do fenômeno físico que explica a curvatura da luz ao redor de um buraco negro?",
+  options: ["Efeito Doppler", "Lente gravitacional", "Radiação Hawking", "Curvatura do espaço-tempo"],
+  answer: "Lente gravitacional"
+},
+{
+  q: "Quem foi o primeiro homem a viajar para o espaço?",
+  options: ["Neil Armstrong", "Yuri Gagarin", "Buzz Aldrin", "John Glenn"],
+  answer: "Yuri Gagarin"
+},
+{
+  q: "Em que país se originou a filosofia do taoísmo?",
+  options: ["Japão", "China", "Índia", "Coreia"],
+  answer: "China"
+},
+{
+  q: "Qual é o nome do vírus responsável pela AIDS?",
+  options: ["HIV", "Hepatite B", "Herpes", "HPV"],
+  answer: "HIV"
+},
+{
+  q: "Quem é o autor da obra 'O Contrato Social'?",
+  options: ["Jean-Jacques Rousseau", "John Locke", "Thomas Hobbes", "Karl Marx"],
+  answer: "Jean-Jacques Rousseau"
+},
+{
+  q: "Em que ano a Segunda Guerra Mundial terminou?",
+  options: ["1942", "1944", "1945", "1948"],
+  answer: "1945"
+},
+{
+  q: "Quem foi o matemático responsável pelo teorema de Fermat?",
+  options: ["Pierre de Fermat", "Euclides", "John von Neumann", "Carl Friedrich Gauss"],
+  answer: "Pierre de Fermat"
+},
+{
+  q: "Qual é o menor planeta do Sistema Solar?",
+  options: ["Mercúrio", "Vênus", "Marte", "Plutão"],
+  answer: "Mercúrio"
+},
+{
+  q: "Quem inventou a lâmpada elétrica?",
+  options: ["Nikola Tesla", "Thomas Edison", "Benjamin Franklin", "Alexander Graham Bell"],
+  answer: "Thomas Edison"
+},
+{
+  q: "Qual foi o primeiro império a se estabelecer no Egito?",
+  options: ["Império Novo", "Império Antigo", "Império Médio", "Império Romano"],
+  answer: "Império Antigo"
+},
+{
+  q: "Qual é o nome da maior lua de Saturno?",
+  options: ["Titan", "Ío", "Calisto", "Europa"],
+  answer: "Titan"
+},
+{
+  q: "Quem foi o filósofo grego que escreveu 'A República'?",
+  options: ["Platão", "Aristóteles", "Sócrates", "Pitágoras"],
+  answer: "Platão"
+},
+{
+  q: "Qual é a principal teoria que descreve as partículas subatômicas?",
+  options: ["Teoria da Relatividade", "Teoria Quântica", "Teoria das Cordas", "Teoria da Gravitação"],
+  answer: "Teoria Quântica"
+},
+{
+  q: "Quem foi o líder da Revolução Francesa?",
+  options: ["Napoleão Bonaparte", "Maximilien Robespierre", "Jean-Paul Marat", "Louis XVI"],
+  answer: "Maximilien Robespierre"
+},
+{
+  q: "Quem foi o escritor de 'O Manifesto Comunista'?",
+  options: ["Friedrich Engels", "Karl Marx", "Mikhail Bakunin", "Antonio Gramsci"],
+  answer: "Karl Marx"
+},
+{
+  q: "Quem foi o matemático responsável pela invenção do cálculo?",
+  options: ["Isaac Newton", "Gottfried Leibniz", "Carl Friedrich Gauss", "René Descartes"],
+  answer: "Isaac Newton"
+},
+{
+  q: "Qual é o nome da maior floresta tropical do mundo?",
+  options: ["Floresta Amazônica", "Floresta do Congo", "Floresta de Borneo", "Floresta de Taiga"],
+  answer: "Floresta Amazônica"
+},
+{
+  q: "Quem foi o cientista que descobriu a estrutura do DNA?",
+  options: ["Marie Curie", "Rosalind Franklin", "James Watson e Francis Crick", "Albert Einstein"],
+  answer: "James Watson e Francis Crick"
+},
+{
+  q: "Qual foi o primeiro satélite artificial lançado ao espaço?",
+  options: ["Apollo 11", "Sputnik 1", "Explorer 1", "Venera 1"],
+  answer: "Sputnik 1"
+},
+{
+  q: "Qual é o nome da partícula subatômica que tem carga negativa?",
+  options: ["Elétron", "Próton", "Neutrino", "Quark"],
+  answer: "Elétron"
+},
+{
+  q: "Quem foi o filósofo alemão que escreveu 'Crítica da Razão Pura'?",
+  options: ["Friedrich Nietzsche", "Immanuel Kant", "Georg Wilhelm Friedrich Hegel", "Martin Heidegger"],
+  answer: "Immanuel Kant"
+},
+{
+  q: "Qual é o nome da teoria que sugere que o Universo tem múltiplas dimensões além das que percebemos?",
+  options: ["Teoria da Relatividade", "Teoria Quântica", "Teoria das Cordas", "Teoria do Big Bang"],
+  answer: "Teoria das Cordas"
+},
+{
+  q: "Quem foi o responsável pela primeira demonstração de que a Terra gira em torno do Sol?",
+  options: ["Galileo Galilei", "Copérnico", "Isaac Newton", "Johannes Kepler"],
+  answer: "Copérnico"
+},
+{
+  q: "Qual é o nome do efeito que explica a mudança na cor da luz quando ela se afasta de nós?",
+  options: ["Efeito Doppler", "Efeito fotoelétrico", "Efeito Compton", "Efeito Zeeman"],
+  answer: "Efeito Doppler"
+},
+{
+  q: "Em qual país nasceu o filósofo Friedrich Nietzsche?",
+  options: ["Alemanha", "Áustria", "Suíça", "França"],
+  answer: "Alemanha"
+},
+{
+  q: "Qual é o nome do primeiro computador moderno?",
+  options: ["ENIAC", "UNIVAC", "Colossus", "Atanasoff-Berry Computer"],
+  answer: "ENIAC"
+},
+{
+  q: "Quem foi o pintor que criou a obra 'A Noite Estrelada'?",
+  options: ["Vincent van Gogh", "Pablo Picasso", "Claude Monet", "Edvard Munch"],
+  answer: "Vincent van Gogh"
+},
+{
+  q: "Quem foi o cientista que propôs a teoria da relatividade?",
+  options: ["Max Planck", "Isaac Newton", "Albert Einstein", "Niels Bohr"],
+  answer: "Albert Einstein"
+},
+{
+  q: "Quem foi o último imperador romano?",
+  options: ["Nero", "Augusto", "Rômulo Augusto", "Constantino"],
+  answer: "Rômulo Augusto"
+},
+{
+  q: "Qual é o nome da teoria matemática que lida com a probabilidade de eventos aleatórios?",
+  options: ["Teoria dos Jogos", "Teoria das Probabilidades", "Teoria dos Conjuntos", "Teoria da Relatividade"],
+  answer: "Teoria das Probabilidades"
+},
+{
+  q: "Quem foi o escritor de 'Dom Quixote'?",
+  options: ["Miguel de Cervantes", "William Shakespeare", "Leo Tolstoy", "Herman Melville"],
+  answer: "Miguel de Cervantes"
+},
+{
+  q: "Quem foi o cientista que descobriu a radioatividade?",
+  options: ["Marie Curie", "Albert Einstein", "Niels Bohr", "Ernest Rutherford"],
+  answer: "Marie Curie"
+},
+{
+  q: "Em que ano foi assinado o Tratado de Versalhes, encerrando a Primeira Guerra Mundial?",
+  options: ["1918", "1919", "1920", "1921"],
+  answer: "1919"
+},
+{
+  q: "Quem foi o cientista que desenvolveu a teoria heliocêntrica do Sistema Solar?",
+  options: ["Galileo Galilei", "Copérnico", "Kepler", "Tycho Brahe"],
+  answer: "Copérnico"
+},
+{
+  q: "Qual é o nome da teoria que explica a origem da vida a partir de moléculas simples?",
+  options: ["Teoria da Abiogênese", "Teoria da Panspermia", "Teoria da Evolução", "Teoria Química da Vida"],
+  answer: "Teoria da Abiogênese"
+},
+{
+  q: "Qual é o nome da teoria que descreve a separação de continentes na Terra?",
+  options: ["Teoria da Tectônica de Placas", "Teoria do Big Bang", "Teoria da Evolução", "Teoria da Deriva Continental"],
+  answer: "Teoria da Deriva Continental"
+},
+{
+  q: "Qual é o nome do físico responsável pela equação E=mc²?",
+  options: ["Max Planck", "Isaac Newton", "Albert Einstein", "Niels Bohr"],
+  answer: "Albert Einstein"
+},
+{
+  q: "Quem foi o filósofo grego que fundou a escola do estoicismo?",
+  options: ["Sócrates", "Platão", "Aristóteles", "Zenão de Cítio"],
+  answer: "Zenão de Cítio"
+}
+
+      // Adicione até 100 perguntas...
     ];
 
+    const totalQuestions = 5;
     let current = 0;
-    let acertos = 0;
+    let correctAnswers = 0;
+    let victories = parseInt(localStorage.getItem("victories")) || 0;
+    const lastVictoryDate = localStorage.getItem("lastVictoryDate");
+    const currentDate = new Date().toLocaleDateString();
+
+    if (lastVictoryDate !== currentDate) {
+      victories = 0;
+      localStorage.setItem("victories", victories);
+      localStorage.setItem("lastVictoryDate", currentDate);
+    }
 
     function showQuestion() {
-      if (current >= questions.length) {
-        alert("Parabéns! Você acertou todas e ganhou $1!");
+      if (current >= totalQuestions) {
+        alert(`Parabéns! Você acertou todas as perguntas e ganhou $1!`);
+        victories++;
+        localStorage.setItem("victories", victories);
         window.location.href = "index.html";
         return;
       }
 
-      const q = questions[current];
-      document.getElementById("question").innerText = q.q;
+      const randomQuestions = [];
+      while (randomQuestions.length < totalQuestions) {
+        const randomIndex = Math.floor(Math.random() * questions.length);
+        if (!randomQuestions.includes(randomIndex)) {
+          randomQuestions.push(randomIndex);
+        }
+      }
+
+      const question = questions[randomQuestions[current]];
+      document.getElementById("question").innerText = question.q;
       const optionsDiv = document.getElementById("options");
       optionsDiv.innerHTML = "";
-      q.options.forEach(opt => {
+      question.options.forEach(opt => {
         const btn = document.createElement("button");
         btn.innerText = opt;
         btn.onclick = () => {
-          if (opt === q.answer) {
+          if (opt === question.answer) {
             current++;
-            acertos++;
+            correctAnswers++;
             showQuestion();
           } else {
             alert("Você errou! Precisa assistir os anúncios novamente.");
@@ -94,7 +408,33 @@
       });
     }
 
-    showQuestion();
+    function countdownTimer() {
+      const timer = document.getElementById("timer");
+      let timeLeft = 60; // 1 minuto de tempo por pergunta
+      const interval = setInterval(() => {
+        timer.innerText = `Tempo restante: ${timeLeft}s`;
+        timeLeft--;
+        if (timeLeft < 0) {
+          clearInterval(interval);
+          alert("Você ultrapassou o tempo! Precisa assistir os anúncios novamente.");
+          window.location.href = "index.html";
+        }
+      }, 1000);
+    }
+
+    // Se o jogador já atingiu 10 vitórias, bloquear o quiz
+    if (victories >= 10) {
+      alert("Você já atingiu o limite de vitórias por dia.");
+      window.location.href = "index.html";
+    } else {
+      countdownTimer();
+      showQuestion();
+    }
+
+    // Função para reiniciar o quiz ao sair da página
+    window.onbeforeunload = function() {
+      return "Você sairá da página. Quer mesmo sair e perder o progresso?";
+    };
   </script>
 
 </body>
