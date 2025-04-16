@@ -87,7 +87,58 @@
       window.location.reload();
     };
 
-    const questions = [/* suas perguntas aqui (omitidas por brevidade) */];
+    const questions = [/* suas perguntas aqui (omitidas por brevidade) */
+    
+  {q: "Qual é o nome do único elemento químico que pode existir naturalmente em todas as formas de matéria ao mesmo tempo?", options: ["Carbono", "Ferro", "Água", "Bismuto"], answer: "Água"},
+  {q: "Qual planeta do Sistema Solar tem o dia mais longo em relação ao seu ano?", options: ["Vênus", "Mercúrio", "Júpiter", "Netuno"], answer: "Vênus"},
+  {q: "Em que século foi escrita a obra *Summa Theologica* de Tomás de Aquino?", options: ["Século XII", "Século XIII", "Século XIV", "Século XI"], answer: "Século XIII"},
+  {q: "Qual é o nome do matemático indiano que desenvolveu teorias avançadas sem formação formal?", options: ["Brahmagupta", "Ramanujan", "Aryabhata", "Bhaskara"], answer: "Ramanujan"},
+  {q: "Qual é o nome do ponto imaginário onde a gravidade de um buraco negro se torna infinita?", options: ["Horizonte de eventos", "Singularidade", "Limite de Schwarzschild", "Núcleo gravitacional"], answer: "Singularidade"},
+  {q: "Quem escreveu a obra *O Ser e o Nada*?", options: ["Nietzsche", "Sartre", "Camus", "Heidegger"], answer: "Sartre"},
+  {q: "Qual filósofo propôs o conceito de 'eterno retorno'?", options: ["Kierkegaard", "Nietzsche", "Platão", "Agostinho"], answer: "Nietzsche"},
+  {q: "Quantos segundos há em um ano bissexto?", options: ["31.536.000", "31.622.400", "31.536.400", "31.622.000"], answer: "31.622.400"},
+  {q: "Qual é a única espécie de mamífero capaz de voar?", options: ["Morcego", "Esquilo-voador", "Planador-do-açúcar", "Lêmure"], answer: "Morcego"},
+  {q: "Qual o nome da galáxia que está em rota de colisão com a Via Láctea?", options: ["Galáxia do Triângulo", "Andrômeda", "NGC 1300", "M87"], answer: "Andrômeda"},
+  {q: "Qual é o número de Graham?", options: ["Número usado em matemática para limites superiores", "Número atômico do grafeno", "Código quântico do carbono", "Valor da constante de Planck"], answer: "Número usado em matemática para limites superiores"},
+  {q: "Qual substância tem o menor ponto de fusão conhecido?", options: ["Hélio", "Hidrogênio", "Neônio", "Oxigênio"], answer: "Hélio"},
+  {q: "Quem foi o autor da equação da onda?", options: ["Euler", "Fourier", "D’Alembert", "Laplace"], answer: "D’Alembert"},
+  {q: "Qual foi a primeira linguagem de programação da história?", options: ["Fortran", "Assembly", "Ada", "Plankalkül"], answer: "Plankalkül"},
+  {q: "Qual imperador romano tornou o cristianismo a religião oficial do Império?", options: ["Constantino", "Teodósio I", "Nero", "Juliano"], answer: "Teodósio I"},
+  {q: "Em qual país surgiu o conceito de zero como número?", options: ["Grécia", "Índia", "China", "Egito"], answer: "Índia"},
+  {q: "Qual animal possui o maior número de corações?", options: ["Polvo", "Lula", "Minhoca", "Girino"], answer: "Minhoca"},
+  {q: "Qual é o idioma artificial mais falado no mundo?", options: ["Esperanto", "Klingon", "Interlíngua", "Volapük"], answer: "Esperanto"},
+  {q: "Quem é considerado o pai da microbiologia?", options: ["Robert Koch", "Louis Pasteur", "Antonie van Leeuwenhoek", "Joseph Lister"], answer: "Antonie van Leeuwenhoek"},
+  {q: "O que mede a constante de Avogadro?", options: ["Átomos por mol", "Energia por partícula", "Gravidade por massa", "Carga elétrica"], answer: "Átomos por mol"},
+  {q: "Qual planeta tem o campo magnético mais forte?", options: ["Terra", "Saturno", "Júpiter", "Netuno"], answer: "Júpiter"},
+  {q: "Quem escreveu *Meditações Metafísicas*?", options: ["Descartes", "Kant", "Hume", "Leibniz"], answer: "Descartes"},
+  {q: "O que é uma supernova tipo Ia?", options: ["Explosão de uma estrela de nêutrons", "Colapso de buraco negro", "Explosão de anã branca em sistema binário", "Formação de estrela gigante"], answer: "Explosão de anã branca em sistema binário"},
+  {q: "Quem é o autor da obra *O Anti-Édipo*?", options: ["Foucault", "Deleuze e Guattari", "Baudrillard", "Lacan"], answer: "Deleuze e Guattari"},
+  {q: "Qual é o nome do paradoxo que afirma que há mais infinitos do que apenas um?", options: ["Paradoxo de Russell", "Paradoxo de Hilbert", "Paradoxo de Cantor", "Paradoxo de Banach-Tarski"], answer: "Paradoxo de Cantor"},
+  {q: "Qual é a única partícula subatômica que pode atravessar a Terra quase sem interação?", options: ["Fóton", "Neutrino", "Glúon", "Elétron"], answer: "Neutrino"},
+  {q: "Qual molécula armazena energia nas células?", options: ["DNA", "ATP", "RNA", "NADH"], answer: "ATP"},
+  {q: "Quem formulou a ideia de *panoptismo*?", options: ["Baudrillard", "Foucault", "Hobbes", "Arendt"], answer: "Foucault"},
+  {q: "Qual país possui o maior número de idiomas falados?", options: ["Índia", "Indonésia", "Papua-Nova Guiné", "Nigéria"], answer: "Papua-Nova Guiné"},
+  {q: "Quem foi o último imperador do Império Bizantino?", options: ["Justiniano II", "Basílio II", "Constantino XI", "Alexios I"], answer: "Constantino XI"},
+  {q: "Qual estrutura cerebral está mais envolvida com o processamento de emoções?", options: ["Hipocampo", "Córtex pré-frontal", "Amígdala", "Tálamo"], answer: "Amígdala"},
+  {q: "Quantos dígitos tem o maior número primo conhecido até 2023?", options: ["10 milhões", "15 milhões", "24 milhões", "30 milhões"], answer: "24 milhões"},
+  {q: "Quem descobriu o núcleo da célula?", options: ["Hooke", "Schwann", "Brown", "Virchow"], answer: "Brown"},
+  {q: "Qual país foi o último a abolir oficialmente a escravidão?", options: ["Brasil", "Arábia Saudita", "Mauritânia", "Índia"], answer: "Mauritânia"},
+  {q: "Qual é a função do tRNA na célula?", options: ["Transportar aminoácidos", "Produzir DNA", "Codificar proteínas", "Eliminar toxinas"], answer: "Transportar aminoácidos"},
+  {q: "Em qual livro foi proposta pela primeira vez a Seleção Natural?", options: ["Origem das Espécies", "Diário de Viagem", "A Descendência do Homem", "O Gênesis"], answer: "Origem das Espécies"},
+  {q: "Qual filósofo influenciou diretamente Freud com o conceito de inconsciente coletivo?", options: ["Kant", "Nietzsche", "Jung", "Schopenhauer"], answer: "Schopenhauer"},
+  {q: "Quem cunhou o termo 'Big Bang'?", options: ["Hubble", "Einstein", "Lemaître", "Fred Hoyle"], answer: "Fred Hoyle"},
+  {q: "Qual o nome do livro que contém a primeira definição sistemática da álgebra?", options: ["Almagesto", "Elementos", "Al-Kitāb al-Mukhtaṣar fī ḥisāb al-jabr waʾl-muqābala", "Liber Abaci"], answer: "Al-Kitāb al-Mukhtaṣar fī ḥisāb al-jabr waʾl-muqābala"},
+  {q: "O que é o 'efeito fotoelétrico'?", options: ["Produção de calor pelo atrito", "Emissão de elétrons por luz incidente", "Distorção de ondas gravitacionais", "Aceleração de partículas no vácuo"], answer: "Emissão de elétrons por luz incidente"},
+  {q: "Qual artista renascentista estudou o voo dos pássaros?", options: ["Michelangelo", "Leonardo da Vinci", "Donatello", "Rafael"], answer: "Leonardo da Vinci"},
+  {q: "Qual teoria filosófica afirma que só se pode conhecer o que se experimenta pelos sentidos?", options: ["Idealismo", "Empirismo", "Racionalismo", "Solipsismo"], answer: "Empirismo"},
+  {q: "Quem formulou a hipótese Gaia?", options: ["Carl Sagan", "James Lovelock", "Stephen Hawking", "Richard Dawkins"], answer: "James Lovelock"},
+  {q: "Qual estrutura do DNA foi descoberta por Watson e Crick?", options: ["Dímero helicoidal", "Dupla hélice", "Anel de bases", "Código triplo"], answer: "Dupla hélice"},
+  {q: "Qual é o termo para a fusão de dois átomos leves em um mais pesado?", options: ["Fissão", "Fusão nuclear", "Radioatividade", "Ionização"], answer: "Fusão nuclear"},
+  {q: "Qual animal pode viver mais de 500 anos?", options: ["Baleia-da-Groenlândia", "Esponja-do-mar", "Medusa Turritopsis", "Tubérculo do mar"], answer: "Esponja-do-mar"},
+  {q: "Qual é a velocidade teórica máxima de uma partícula com massa?", options: ["Velocidade da luz", "Infinita", "Zero", "Velocidade de escape"], answer: "Velocidade da luz"}
+];
+
+    ];
 
     const totalQuestions = 5;
     let current = 0;
