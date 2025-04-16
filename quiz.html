@@ -1,0 +1,101 @@
+<!-- quiz.html -->
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Quiz Difícil</title>
+  <style>
+    body {
+      font-family: Arial;
+      padding: 40px;
+      background: #fffde7;
+      color: #333;
+      text-align: center;
+    }
+    h2 {
+      font-size: 24px;
+    }
+    .options button {
+      display: block;
+      margin: 10px auto;
+      padding: 10px 20px;
+      background-color: #6200ea;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    .options button:hover {
+      background-color: #3700b3;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Quiz Super Difícil</h1>
+  <h2 id="question">Carregando...</h2>
+  <div class="options" id="options"></div>
+
+  <script>
+    const questions = [
+      {
+        q: "Quem formulou a conjectura de Poincaré?",
+        options: ["Henri Poincaré", "Grigori Perelman", "Isaac Newton", "Alan Turing"],
+        answer: "Grigori Perelman"
+      },
+      {
+        q: "Qual é o elemento mais raro da Terra?",
+        options: ["Frâncio", "Astatínio", "Ródio", "Actínio"],
+        answer: "Frâncio"
+      },
+      {
+        q: "Quem escreveu *A Gaia Ciência*?",
+        options: ["Schopenhauer", "Nietzsche", "Kant", "Heidegger"],
+        answer: "Nietzsche"
+      },
+      {
+        q: "Em que ano ocorreu o primeiro experimento de fissão nuclear controlada?",
+        options: ["1938", "1942", "1945", "1950"],
+        answer: "1942"
+      }
+      // <- aqui você pode adicionar mais perguntas (vou te ajudar a colocar 100 depois)
+    ];
+
+    let current = 0;
+    let acertos = 0;
+
+    function showQuestion() {
+      if (current >= questions.length) {
+        alert("Parabéns! Você acertou todas e ganhou $1!");
+        window.location.href = "index.html";
+        return;
+      }
+
+      const q = questions[current];
+      document.getElementById("question").innerText = q.q;
+      const optionsDiv = document.getElementById("options");
+      optionsDiv.innerHTML = "";
+      q.options.forEach(opt => {
+        const btn = document.createElement("button");
+        btn.innerText = opt;
+        btn.onclick = () => {
+          if (opt === q.answer) {
+            current++;
+            acertos++;
+            showQuestion();
+          } else {
+            alert("Você errou! Precisa assistir os anúncios novamente.");
+            window.location.href = "index.html";
+          }
+        };
+        optionsDiv.appendChild(btn);
+      });
+    }
+
+    showQuestion();
+  </script>
+
+</body>
+</html>
