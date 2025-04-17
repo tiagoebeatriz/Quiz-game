@@ -61,9 +61,15 @@
     const errorMessage = document.getElementById("errorMessage");
 
     function loadNextAd() {
-      adsContainer.innerHTML = `
-        <script type="text/javascript" src="https://pl26391059.profitableratecpm.com/dc/a9/72/dca972cc07507145ad5241b658496cc3.js"></script>
-      `;
+      // Cria o elemento de script dinamicamente
+      const adScript = document.createElement("script");
+      adScript.type = "text/javascript";
+      adScript.src = "https://pl26391059.profitableratecpm.com/dc/a9/72/dca972cc07507145ad5241b658496cc3.js";
+      
+      // Adiciona o script ao DOM
+      adsContainer.innerHTML = '';  // Limpa o container dos anúncios
+      adsContainer.appendChild(adScript);
+      
       let secondsLeft = 40;
       timerText.textContent = `Aguarde ${secondsLeft} segundos...`;
 
