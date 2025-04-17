@@ -6,33 +6,23 @@
   <title>Assistir Anúncios</title>
   <style>
     body {
-      font-family: 'Arial', sans-serif;
+      font-family: Arial, sans-serif;
       text-align: center;
-      background: linear-gradient(to right, #2b2d42, #8d99ae);
+      background: linear-gradient(to right, #3a6186, #89253e);
       color: white;
       padding: 40px;
-      margin: 0;
     }
     h1 {
       font-size: 28px;
-      margin-bottom: 20px;
-      color: #f3f4f6;
     }
-    #ads iframe {
-      width: 300px;
-      height: 250px;
-      border: none;
-      margin: 20px auto;
-      display: block;
-      box-shadow: 0 0 15px #000;
-      border-radius: 15px;
-    }
-    #status, #timer {
+    #status {
       font-size: 20px;
       margin-bottom: 20px;
     }
     #timer {
-      color: #ffcc00;
+      font-size: 22px;
+      margin-bottom: 10px;
+      color: yellow;
     }
     button {
       padding: 15px 30px;
@@ -42,63 +32,10 @@
       border: none;
       border-radius: 12px;
       cursor: pointer;
-      transition: background-color 0.3s ease;
     }
     button:disabled {
       background-color: #777;
       cursor: not-allowed;
-    }
-    button:hover:not(:disabled) {
-      background-color: #218838;
-    }
-    /* Tela de loading */
-    #loadingScreen {
-      display: none;
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0, 0, 0, 0.7);
-      color: white;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      z-index: 9999;
-    }
-    #loadingMessage {
-      margin-bottom: 20px;
-      font-size: 22px;
-      animation: pulse 2s infinite;
-    }
-    @keyframes pulse {
-      0% { opacity: 0.6; }
-      50% { opacity: 1; }
-      100% { opacity: 0.6; }
-    }
-    #progressContainer {
-      width: 80%;
-      max-width: 400px;
-      background: #333;
-      border-radius: 20px;
-      overflow: hidden;
-    }
-    #progressBar {
-      width: 0%;
-      height: 20px;
-      background: linear-gradient(to right, #00ff99, #0099ff);
-      transition: width 0.2s;
-    }
-
-    /* Responsividade para telas pequenas */
-    @media screen and (max-width: 600px) {
-      #ads iframe {
-        width: 100%;
-        max-width: 90%;
-      }
-      button {
-        padding: 12px 25px;
-        font-size: 18px;
-      }
     }
   </style>
 </head>
@@ -109,18 +46,6 @@
   <div id="ads"></div>
   <button id="startQuiz" onclick="startQuiz()" disabled>Iniciar Quiz</button>
 
-  <!-- Tela de loading -->
-  <div id="loadingScreen">
-    <h2 id="loadingMessage">Preparando o Quiz...</h2>
-    <div id="progressContainer">
-      <div id="progressBar"></div>
-    </div>
-  </div>
-
-  <!-- Efeito Sonoro -->
-  <audio id="adCompleteSound" src="https://www.soundjay.com/button/beep-07.wav" preload="auto"></audio>
-  <audio id="loadingSound" src="https://www.soundjay.com/button/btn-10.wav" preload="auto"></audio>
-
   <script>
     const totalAds = 5;
     let adsWatched = 0;
@@ -128,15 +53,13 @@
     const statusText = document.getElementById("status");
     const timerText = document.getElementById("timer");
     const startButton = document.getElementById("startQuiz");
-    const adCompleteSound = document.getElementById("adCompleteSound");
-    const loadingSound = document.getElementById("loadingSound");
 
     function loadNextAd() {
-      // Carrega o anúncio do Adsterra
       adsContainer.innerHTML = `
-        <iframe src="https://www.profitableratecpm.com/a9jbed7jy4?key=c2a7916e8712767463a0c7e7fae86ec1" frameborder="0" width="300" height="250" scrolling="no" allowfullscreen></iframe>
+        <a href="https://www.profitableratecpm.com/a9jbed7jy4?key=c2a7916e8712767463a0c7e7fae86ec1" target="_blank">
+          <button>Assista ao Anúncio</button>
+        </a>
       `;
-
       let secondsLeft = 10;
       timerText.textContent = `Aguarde ${secondsLeft} segundos...`;
 
@@ -149,11 +72,8 @@
           adsWatched++;
           statusText.textContent = `Anúncios assistidos: ${adsWatched}/${totalAds}`;
 
-          // Reproduz som ao completar anúncio
-          adCompleteSound.play();
-
           if (adsWatched < totalAds) {
-            loadNextAd();
+            loadNextAd(); // próximo anúncio
           } else {
             adsContainer.innerHTML = "<p>Você assistiu todos os anúncios!</p>";
             timerText.textContent = "Pronto!";
@@ -164,42 +84,9 @@
     }
 
     function startQuiz() {
-      const loadingScreen = document.getElementById("loadingScreen");
-      const progressBar = document.getElementById("progressBar");
-      const loadingMessage = document.getElementById("loadingMessage");
-
-      // Reproduz som de carregamento
-      loadingSound.play();
-
-      const messages = [
-        "Conectando cérebros...",
-        "Calculando perguntas impossíveis...",
-        "Aquecendo os neurônios...",
-        "Carregando sabedoria ancestral...",
-        "Preparando sua jornada épica..."
-      ];
-
-      const msg = messages[Math.floor(Math.random() * messages.length)];
-      loadingMessage.textContent = msg;
-
-      loadingScreen.style.display = "flex";
-
-      let progress = 0;
-      const interval = setInterval(() => {
-        progress += 2 + Math.random() * 5;
-        if (progress >= 100) {
-          progressBar.style.width = "100%";
-          clearInterval(interval);
-          setTimeout(() => {
-            window.location.href = "quiz.html"; // AQUI, você redireciona para a página de quiz.
-          }, 500);
-        } else {
-          progressBar.style.width = progress + "%";
-        }
-      }, 100);
+      window.location.href = "quiz.html";
     }
 
-    // Inicia o primeiro anúncio
     loadNextAd();
   </script>
 </body>
