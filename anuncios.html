@@ -42,7 +42,7 @@
 <body>
   <h1>Assista aos 5 anúncios para jogar</h1>
   <p id="status">Anúncios assistidos: 0/5</p>
-  <p id="timer">Aguarde 10 segundos...</p>
+  <p id="timer">Aguarde 40 segundos...</p>
   <div id="ads"></div>
   <button id="startQuiz" onclick="startQuiz()" disabled>Iniciar Quiz</button>
 
@@ -56,11 +56,11 @@
 
     function loadNextAd() {
       adsContainer.innerHTML = `
-        <a href="https://www.profitableratecpm.com/a9jbed7jy4?key=c2a7916e8712767463a0c7e7fae86ec1" target="_blank">
+        <a href="https://www.profitableratecpm.com/a9jbed7jy4?key=c2a7916e8712767463a0c7e7fae86ec1" target="_blank" onclick="startTimer()">
           <button>Assista ao Anúncio</button>
         </a>
       `;
-      let secondsLeft = 10;
+      let secondsLeft = 40;
       timerText.textContent = `Aguarde ${secondsLeft} segundos...`;
 
       const countdown = setInterval(() => {
@@ -81,6 +81,11 @@
           }
         }
       }, 1000);
+    }
+
+    function startTimer() {
+      // Inicia o tempo de espera de 40 segundos
+      loadNextAd();
     }
 
     function startQuiz() {
