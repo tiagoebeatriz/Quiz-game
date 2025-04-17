@@ -110,16 +110,18 @@
 
     function showAds(times, callback) {
       if (times <= 0) {
-        if (callback) callback();
+        if (callback) setTimeout(callback, 500);
         return;
       }
       const link = adLinks[Math.floor(Math.random() * adLinks.length)];
       window.open(link, "_blank");
-      showAds(times - 1, callback);
+      setTimeout(() => {
+        showAds(times - 1, callback);
+      }, 2000); // espera 2s antes de abrir o próximo anúncio
     }
 
     function nextQuestion() {
-      document.getElementById("question").style.display = "block"; // Correção importante aqui
+      document.getElementById("question").style.display = "block";
       currentQuestion = questions[Math.floor(Math.random() * questions.length)];
       document.getElementById("qText").textContent = currentQuestion.q;
       const options = document.getElementById("options");
