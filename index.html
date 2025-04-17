@@ -3,14 +3,57 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="monetag" content="f1660219e6e1addef5fa8e04eefaea22" />
   <title>Quiz Premiado</title>
+  <meta name="monetag" content="f1660219e6e1addef5fa8e04eefaea22">
   <style>
-    body { font-family: sans-serif; text-align: center; padding: 20px; background: #f0f0f0; }
-    #game, #question, #ads, #reward, #withdraw { display: none; }
-    button { padding: 10px 20px; font-size: 16px; margin: 10px; }
-    #timer { font-weight: bold; color: red; }
-    input { padding: 8px; font-size: 16px; margin-top: 10px; width: 250px; }
+    body {
+      font-family: 'Arial', sans-serif;
+      text-align: center;
+      padding: 20px;
+      background: linear-gradient(to right, #4b0082, #00bfff);
+      color: white;
+    }
+
+    #game, #question, #ads, #reward, #withdraw {
+      display: none;
+    }
+
+    button {
+      padding: 12px 25px;
+      font-size: 16px;
+      margin: 10px;
+      border: none;
+      border-radius: 8px;
+      background: #00ffcc;
+      color: #000;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background: #00ccaa;
+    }
+
+    #timer {
+      font-weight: bold;
+      font-size: 22px;
+      color: yellow;
+    }
+
+    input {
+      padding: 8px;
+      font-size: 16px;
+      margin-top: 10px;
+      width: 250px;
+      border-radius: 5px;
+      border: none;
+    }
+
+    #qText {
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
   </style>
 </head>
 <body>
@@ -48,11 +91,7 @@
 
   <script>
     const adLinks = [
-      "https://www.profitableratecpm.com/a9jbed7jy4?key=c2a7916e8712767463a0c7e7fae86ec1",
-      "https://www.profitableratecpm.com/a9jbed7jy4?key=link2",
-      "https://www.profitableratecpm.com/a9jbed7jy4?key=link3",
-      "https://www.profitableratecpm.com/a9jbed7jy4?key=link4",
-      "https://www.profitableratecpm.com/a9jbed7jy4?key=link5"
+      "https://www.profitableratecpm.com/a9jbed7jy4?key=c2a7916e8712767463a0c7e7fae86ec1"
     ];
 
     let score = 0;
@@ -61,31 +100,14 @@
     let correctAnswers = 0;
 
     const questions = [
-      {
-        q: "Qual é a capital da Islândia?",
-        options: ["Reykjavik", "Oslo", "Helsinque", "Estocolmo"],
-        answer: 0
-      },
-      {
-        q: "Quem escreveu 'Ulisses'?",
-        options: ["James Joyce", "Hemingway", "Proust", "Kafka"],
-        answer: 0
-      },
-      {
-        q: "Qual elemento tem símbolo 'W'?",
-        options: ["Tungstênio", "Estanho", "Zinco", "Prata"],
-        answer: 0
-      },
-      {
-        q: "Qual planeta tem o dia mais longo?",
-        options: ["Vênus", "Marte", "Mercúrio", "Júpiter"],
-        answer: 0
-      },
-      {
-        q: "O que significa 'mitocôndria'?",
-        options: ["Casa da energia", "Centro nervoso", "Célula vegetal", "RNA celular"],
-        answer: 0
-      }
+      { q: "Qual é a capital da Islândia?", options: ["Reykjavik", "Oslo", "Helsinque", "Estocolmo"], answer: 0 },
+      { q: "Quem escreveu 'Ulisses'?", options: ["James Joyce", "Hemingway", "Proust", "Kafka"], answer: 0 },
+      { q: "Qual elemento tem símbolo 'W'?", options: ["Tungstênio", "Estanho", "Zinco", "Prata"], answer: 0 },
+      { q: "Qual planeta tem o dia mais longo?", options: ["Vênus", "Marte", "Mercúrio", "Júpiter"], answer: 0 },
+      { q: "O que significa 'mitocôndria'?", options: ["Casa da energia", "Centro nervoso", "Célula vegetal", "RNA celular"], answer: 0 },
+      { q: "Quem pintou a Mona Lisa?", options: ["Leonardo da Vinci", "Michelangelo", "Van Gogh", "Picasso"], answer: 0 },
+      { q: "Qual é o maior oceano do mundo?", options: ["Pacífico", "Atlântico", "Índico", "Ártico"], answer: 0 },
+      { q: "Quantos ossos tem o corpo humano?", options: ["206", "201", "198", "210"], answer: 0 }
     ];
 
     let currentQuestion;
@@ -97,6 +119,13 @@
     function startGame() {
       document.getElementById("start").style.display = "none";
       document.getElementById("game").style.display = "block";
+      document.getElementById("reward").textContent = "";
+      correctStreak = 0;
+      correctAnswers = 0;
+      score = 0;
+      balance = 0;
+      document.getElementById("score").textContent = score;
+      document.getElementById("balance").textContent = balance.toFixed(2);
       nextQuestion();
     }
 
@@ -165,7 +194,7 @@
       } else {
         correctStreak = 0;
         correctAnswers = 0;
-        showAds(2, nextQuestion);
+        showAds(1, nextQuestion); // Somente 1 anúncio ao errar
       }
     }
 
