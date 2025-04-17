@@ -41,6 +41,11 @@
       color: red;
       margin-top: 20px;
     }
+    iframe {
+      border: none;
+      width: 300px;
+      height: 250px;
+    }
   </style>
 </head>
 <body>
@@ -61,18 +66,24 @@
     const errorMessage = document.getElementById("errorMessage");
 
     function loadNextAd() {
-      // Cria o iframe para o anúncio
+      // Criação do iframe com o link do anúncio
       const iframe = document.createElement("iframe");
-      iframe.src = "https://www.profitableratecpm.com/a9jbed7jy4?key=c2a7916e8712767463a0c7e7fae86ec1";
-      iframe.width = "300";
-      iframe.height = "250";
-      iframe.frameBorder = "0";
-      iframe.scrolling = "no";
-
-      // Limpa o contêiner de anúncios e adiciona o iframe
-      adsContainer.innerHTML = '';  // Limpa o container dos anúncios
+      iframe.src = "https://www.profitableratecpm.com/a9jbed7jy4?key=c2a7916e8712767463a0c7e7fae86ec1";  // Link do anúncio
+      iframe.onload = function() {
+        // Se o iframe carregou corretamente, começamos a contagem de 40 segundos
+        startAdTimer();
+      };
+      iframe.onerror = function() {
+        // Caso o anúncio não carregue, mostramos um erro
+        errorMessage.style.display = "block";
+      };
+      
+      // Limpa o conteúdo anterior e adiciona o iframe
+      adsContainer.innerHTML = '';
       adsContainer.appendChild(iframe);
+    }
 
+    function startAdTimer() {
       let secondsLeft = 40;
       timerText.textContent = `Aguarde ${secondsLeft} segundos...`;
 
@@ -86,30 +97,21 @@
           statusText.textContent = `Anúncios assistidos: ${adsWatched}/${totalAds}`;
 
           if (adsWatched < totalAds) {
-            loadNextAd(); // próximo anúncio
+            loadNextAd(); // Carrega o próximo anúncio
           } else {
             adsContainer.innerHTML = "<p>Você assistiu todos os anúncios!</p>";
             timerText.textContent = "Pronto!";
-            startButton.disabled = false;
+            startButton.disabled = false; // Habilita o botão para iniciar o quiz
           }
         }
       }, 1000);
     }
 
     function startQuiz() {
-      window.location.href = "quiz.html";
+      window.location.href = "quiz.html"; // Redireciona para o quiz
     }
 
-    // Tente carregar o anúncio e, se falhar, exiba uma mensagem de erro
-    function loadAdWithFallback() {
-      try {
-        loadNextAd();
-      } catch (error) {
-        errorMessage.style.display = "block"; // Mostra a mensagem de erro
-      }
-    }
-
-    loadAdWithFallback();
+    loadNextAd(); // Inicia o processo de carregamento do primeiro anúncio
   </script>
 </body>
 </html>
