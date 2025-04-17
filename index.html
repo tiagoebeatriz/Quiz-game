@@ -98,11 +98,34 @@
 
     let currentQuestion;
 
+    // NOVO: carregar dados salvos
+    function loadSavedData() {
+      const savedBalance = localStorage.getItem("balance");
+      const savedScore = localStorage.getItem("score");
+
+      if (savedBalance !== null) {
+        balance = parseFloat(savedBalance);
+        document.getElementById("balance").textContent = balance.toFixed(2);
+      }
+
+      if (savedScore !== null) {
+        score = parseInt(savedScore);
+        document.getElementById("score").textContent = score;
+      }
+    }
+
+    // NOVO: salvar dados
+    function saveData() {
+      localStorage.setItem("balance", balance.toFixed(2));
+      localStorage.setItem("score", score);
+    }
+
     function showStartAd() {
       showAds(1, startGame);
     }
 
     function startGame() {
+      loadSavedData(); // NOVO
       document.getElementById("start").style.display = "none";
       document.getElementById("game").style.display = "block";
       nextQuestion();
@@ -159,6 +182,7 @@
 
         document.getElementById("score").textContent = score;
         document.getElementById("balance").textContent = balance.toFixed(2);
+        saveData(); // NOVO
 
         if (correctAnswers % 2 === 0) {
           showAds(1, nextQuestion);
@@ -193,6 +217,7 @@
       message.textContent = `Pedido de saque enviado para ${email}. Você receberá em até 48h.`;
       balance = 0.0;
       document.getElementById("balance").textContent = balance.toFixed(2);
+      saveData(); // NOVO
     }
   </script>
 </body>
