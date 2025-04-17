@@ -110,18 +110,28 @@
 
     function showAds(times, callback) {
       if (times <= 0) {
-        if (callback) setTimeout(callback, 500);
+        callback();
         return;
       }
+
       const link = adLinks[Math.floor(Math.random() * adLinks.length)];
-      window.open(link, "_blank");
-      setTimeout(() => {
-        showAds(times - 1, callback);
-      }, 2000); // espera 2s antes de abrir o próximo anúncio
+      const win = window.open(link, "_blank");
+
+      alert("Feche o anúncio para continuar.");
+
+      const checkClosed = setInterval(() => {
+        if (win.closed) {
+          clearInterval(checkClosed);
+          showAds(times - 1, callback);
+        }
+      }, 500);
     }
 
     function nextQuestion() {
       document.getElementById("question").style.display = "block";
+      document.getElementById("reward").style.display = "block";
+      document.getElementById("reward").textContent = "";
+
       currentQuestion = questions[Math.floor(Math.random() * questions.length)];
       document.getElementById("qText").textContent = currentQuestion.q;
       const options = document.getElementById("options");
@@ -140,17 +150,18 @@
         correctStreak++;
         correctAnswers++;
         balance += 0.01;
+
         if (correctStreak === 5) {
           balance += 0.10;
           document.getElementById("reward").textContent = "Bônus: +$0.10 por 5 acertos seguidos!";
           correctStreak = 0;
-        } else {
-          document.getElementById("reward").textContent = "";
         }
+
         document.getElementById("score").textContent = score;
         document.getElementById("balance").textContent = balance.toFixed(2);
+
         if (correctAnswers % 2 === 0) {
-          showAds(2, nextQuestion);
+          showAds(1, nextQuestion);
         } else {
           nextQuestion();
         }
