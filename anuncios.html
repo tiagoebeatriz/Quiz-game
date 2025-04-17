@@ -132,9 +132,9 @@
     const loadingSound = document.getElementById("loadingSound");
 
     function loadNextAd() {
-      // Carrega o anúncio
+      // Carrega o anúncio do Adsterra
       adsContainer.innerHTML = `
-        <iframe src="https://www.profitableratecpm.com/a9jbed7jy4?key=c2a7916e8712767463a0c7e7fae86ec1&rand=${Math.random()}"></iframe>
+        <iframe src="https://www.profitableratecpm.com/a9jbed7jy4?key=c2a7916e8712767463a0c7e7fae86ec1" frameborder="0" width="300" height="250" scrolling="no" allowfullscreen></iframe>
       `;
 
       let secondsLeft = 10;
@@ -191,7 +191,7 @@
           progressBar.style.width = "100%";
           clearInterval(interval);
           setTimeout(() => {
-            window.location.href = "quiz.html";
+            window.location.href = "quiz.html"; // AQUI, você redireciona para a página de quiz.
           }, 500);
         } else {
           progressBar.style.width = progress + "%";
