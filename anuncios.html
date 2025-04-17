@@ -37,6 +37,10 @@
       background-color: #777;
       cursor: not-allowed;
     }
+    #errorMessage {
+      color: red;
+      margin-top: 20px;
+    }
   </style>
 </head>
 <body>
@@ -45,6 +49,7 @@
   <p id="timer">Aguarde 40 segundos...</p>
   <div id="ads"></div>
   <button id="startQuiz" onclick="startQuiz()" disabled>Iniciar Quiz</button>
+  <p id="errorMessage" style="display: none;">O anúncio não pôde ser carregado. Tente novamente.</p>
 
   <script>
     const totalAds = 5;
@@ -53,6 +58,7 @@
     const statusText = document.getElementById("status");
     const timerText = document.getElementById("timer");
     const startButton = document.getElementById("startQuiz");
+    const errorMessage = document.getElementById("errorMessage");
 
     function loadNextAd() {
       adsContainer.innerHTML = `
@@ -92,7 +98,16 @@
       window.location.href = "quiz.html";
     }
 
-    loadNextAd();
+    // Tente carregar o anúncio e, se falhar, exiba uma mensagem de erro
+    function loadAdWithFallback() {
+      try {
+        loadNextAd();
+      } catch (error) {
+        errorMessage.style.display = "block"; // Mostra a mensagem de erro
+      }
+    }
+
+    loadAdWithFallback();
   </script>
 </body>
 </html>
