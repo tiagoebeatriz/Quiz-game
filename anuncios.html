@@ -61,15 +61,18 @@
     const errorMessage = document.getElementById("errorMessage");
 
     function loadNextAd() {
-      // Cria o elemento de script dinamicamente
-      const adScript = document.createElement("script");
-      adScript.type = "text/javascript";
-      adScript.src = "https://pl26391059.profitableratecpm.com/dc/a9/72/dca972cc07507145ad5241b658496cc3.js";
-      
-      // Adiciona o script ao DOM
+      // Cria o iframe para o anúncio
+      const iframe = document.createElement("iframe");
+      iframe.src = "https://www.profitableratecpm.com/a9jbed7jy4?key=c2a7916e8712767463a0c7e7fae86ec1";
+      iframe.width = "300";
+      iframe.height = "250";
+      iframe.frameBorder = "0";
+      iframe.scrolling = "no";
+
+      // Limpa o contêiner de anúncios e adiciona o iframe
       adsContainer.innerHTML = '';  // Limpa o container dos anúncios
-      adsContainer.appendChild(adScript);
-      
+      adsContainer.appendChild(iframe);
+
       let secondsLeft = 40;
       timerText.textContent = `Aguarde ${secondsLeft} segundos...`;
 
@@ -91,11 +94,6 @@
           }
         }
       }, 1000);
-    }
-
-    function startTimer() {
-      // Inicia o tempo de espera de 40 segundos
-      loadNextAd();
     }
 
     function startQuiz() {
