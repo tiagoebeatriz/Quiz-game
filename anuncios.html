@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Assistir Anúncios</title>
+  <title>Jogo de Quiz com Anúncios</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -15,7 +15,7 @@
     h1 {
       font-size: 28px;
     }
-    #status {
+    #status, #saldo {
       font-size: 20px;
       margin-bottom: 20px;
     }
@@ -49,8 +49,9 @@
   </style>
 </head>
 <body>
-  <h1>Assista aos 5 anúncios para jogar</h1>
+  <h1>Jogo de Quiz com Anúncios</h1>
   <p id="status">Anúncios assistidos: 0/5</p>
+  <p id="saldo">Saldo: $0.00</p>
   <p id="timer">Aguarde 40 segundos...</p>
   <div id="ads"></div>
   <button id="startQuiz" onclick="startQuiz()" disabled>Iniciar Quiz</button>
@@ -59,30 +60,31 @@
   <script>
     const totalAds = 5;
     let adsWatched = 0;
+    let correctAnswers = 0;
+    let saldo = 0.00;
     const adsContainer = document.getElementById("ads");
     const statusText = document.getElementById("status");
+    const saldoText = document.getElementById("saldo");
     const timerText = document.getElementById("timer");
     const startButton = document.getElementById("startQuiz");
     const errorMessage = document.getElementById("errorMessage");
 
+    // Função para carregar o próximo anúncio
     function loadNextAd() {
-      // Criação do iframe com o link do anúncio
       const iframe = document.createElement("iframe");
       iframe.src = "https://www.profitableratecpm.com/a9jbed7jy4?key=c2a7916e8712767463a0c7e7fae86ec1";  // Link do anúncio
       iframe.onload = function() {
-        // Se o iframe carregou corretamente, começamos a contagem de 40 segundos
         startAdTimer();
       };
       iframe.onerror = function() {
-        // Caso o anúncio não carregue, mostramos um erro
         errorMessage.style.display = "block";
       };
       
-      // Limpa o conteúdo anterior e adiciona o iframe
-      adsContainer.innerHTML = '';
+      adsContainer.innerHTML = ''; // Limpa anúncios anteriores
       adsContainer.appendChild(iframe);
     }
 
+    // Função para iniciar o temporizador de 40 segundos
     function startAdTimer() {
       let secondsLeft = 40;
       timerText.textContent = `Aguarde ${secondsLeft} segundos...`;
@@ -107,11 +109,63 @@
       }, 1000);
     }
 
+    // Função para iniciar o quiz
     function startQuiz() {
-      window.location.href = "quiz.html"; // Redireciona para o quiz
+      // Redireciona para a página do quiz
+      alert("Iniciando o quiz...");
+      loadQuestions();
     }
 
-    loadNextAd(); // Inicia o processo de carregamento do primeiro anúncio
+    // Função para carregar as perguntas do quiz
+    function loadQuestions() {
+      // Exemplo simples de perguntas muito difíceis
+      const questions = [
+        { question: "Qual é a raiz quadrada de 256?", answer: "16" },
+        { question: "Qual é o valor de pi (aproximadamente)?", answer: "3.1416" },
+        { question: "Quem foi o primeiro presidente dos Estados Unidos?", answer: "George Washington" },
+        // Adicione mais perguntas difíceis aqui
+      ];
+
+      let currentQuestionIndex = 0;
+
+      function askQuestion() {
+        if (currentQuestionIndex < questions.length) {
+          const currentQuestion = questions[currentQuestionIndex];
+          const userAnswer = prompt(currentQuestion.question);
+          if (userAnswer === currentQuestion.answer) {
+            saldo += 0.01;  // Adiciona 0.01 para cada resposta correta
+            saldoText.textContent = `Saldo: $${saldo.toFixed(2)}`;
+            correctAnswers++;
+            if (correctAnswers === 5) {
+              alert("Você acertou 5 perguntas seguidas! Recompensa: $0.05.");
+              correctAnswers = 0; // Reinicia o contador de respostas corretas
+              loadAdsAfterQuiz();
+            }
+          } else {
+            alert("Resposta errada! Tente novamente.");
+            correctAnswers = 0; // Reinicia o contador de respostas corretas
+            loadAdsAfterQuiz();
+          }
+          currentQuestionIndex++;
+        } else {
+          alert("Você terminou o quiz!"); 
+        }
+      }
+
+      askQuestion();
+    }
+
+    // Função para carregar anúncios após o quiz
+    function loadAdsAfterQuiz() {
+      if (adsWatched % 5 === 0) {
+        alert("Hora de assistir a 2 anúncios!");
+        loadNextAd();
+        loadNextAd();
+      }
+    }
+
+    // Inicia o primeiro anúncio
+    loadNextAd();
   </script>
 </body>
 </html>
