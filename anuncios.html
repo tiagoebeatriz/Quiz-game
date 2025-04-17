@@ -1,171 +1,195 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Jogo de Quiz com Anúncios</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quiz Premiado</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      background: linear-gradient(to right, #3a6186, #89253e);
-      color: white;
-      padding: 40px;
-    }
-    h1 {
-      font-size: 28px;
-    }
-    #status, #saldo {
-      font-size: 20px;
-      margin-bottom: 20px;
-    }
-    #timer {
-      font-size: 22px;
-      margin-bottom: 10px;
-      color: yellow;
-    }
-    button {
-      padding: 15px 30px;
-      font-size: 20px;
-      background-color: #28a745;
-      color: white;
-      border: none;
-      border-radius: 12px;
-      cursor: pointer;
-    }
-    button:disabled {
-      background-color: #777;
-      cursor: not-allowed;
-    }
-    #errorMessage {
-      color: red;
-      margin-top: 20px;
-    }
-    iframe {
-      border: none;
-      width: 300px;
-      height: 250px;
-    }
+    body { font-family: sans-serif; text-align: center; padding: 20px; background: #f0f0f0; }
+    #game, #question, #ads, #reward, #withdraw { display: none; }
+    button { padding: 10px 20px; font-size: 16px; margin: 10px; }
+    #timer { font-weight: bold; color: red; }
+    input { padding: 8px; font-size: 16px; margin-top: 10px; width: 250px; }
   </style>
 </head>
 <body>
-  <h1>Jogo de Quiz com Anúncios</h1>
-  <p id="status">Anúncios assistidos: 0/5</p>
-  <p id="saldo">Saldo: $0.00</p>
-  <p id="timer">Aguarde 40 segundos...</p>
-  <div id="ads"></div>
-  <button id="startQuiz" onclick="startQuiz()" disabled>Iniciar Quiz</button>
-  <p id="errorMessage" style="display: none;">O anúncio não pôde ser carregado. Tente novamente.</p>
+  <h1>Quiz Premiado</h1>
+
+  <div id="start">
+    <p>Bem-vindo ao quiz! Assista ao anúncio de 30 segundos para começar:</p>
+    <button onclick="showStartAd()">Assistir Anúncio</button>
+  </div>
+
+  <div id="ads">
+    <p>Espere <span id="timer">15</span> segundos enquanto o anúncio está sendo visualizado...</p>
+  </div>
+
+  <div id="game">
+    <div id="menu">
+      <p>Acertos: <span id="score">0</span> | Saldo: $<span id="balance">0.00</span></p>
+      <button onclick="withdraw()">Sacar via PayPal</button>
+    </div>
+    <div id="question">
+      <p id="qText">Pergunta vai aqui</p>
+      <div id="options"></div>
+    </div>
+    <div id="reward"></div>
+  </div>
+
+  <div id="withdraw">
+    <h2>Solicitar Saque</h2>
+    <p>Digite seu email do PayPal:</p>
+    <input type="email" id="paypalEmail" placeholder="seu@email.com" />
+    <br>
+    <button onclick="submitWithdrawal()">Enviar Pedido</button>
+    <p id="withdrawMessage"></p>
+  </div>
 
   <script>
-    const totalAds = 5;
-    let adsWatched = 0;
-    let correctAnswers = 0;
-    let saldo = 0.00;
-    const adsContainer = document.getElementById("ads");
-    const statusText = document.getElementById("status");
-    const saldoText = document.getElementById("saldo");
-    const timerText = document.getElementById("timer");
-    const startButton = document.getElementById("startQuiz");
-    const errorMessage = document.getElementById("errorMessage");
+    const adLinks = [
+      "https://www.profitableratecpm.com/a9jbed7jy4?key=c2a7916e8712767463a0c7e7fae86ec1",
+      "https://www.profitableratecpm.com/a9jbed7jy4?key=link2",
+      "https://www.profitableratecpm.com/a9jbed7jy4?key=link3",
+      "https://www.profitableratecpm.com/a9jbed7jy4?key=link4",
+      "https://www.profitableratecpm.com/a9jbed7jy4?key=link5"
+    ];
 
-    // Função para carregar o próximo anúncio
-    function loadNextAd() {
-      const iframe = document.createElement("iframe");
-      iframe.src = "https://www.profitableratecpm.com/a9jbed7jy4?key=c2a7916e8712767463a0c7e7fae86ec1";  // Link do anúncio
-      iframe.onload = function() {
-        startAdTimer();
-      };
-      iframe.onerror = function() {
-        errorMessage.style.display = "block";
-      };
-      
-      adsContainer.innerHTML = ''; // Limpa anúncios anteriores
-      adsContainer.appendChild(iframe);
+    let score = 0;
+    let balance = 0.0;
+    let correctStreak = 0;
+    let correctAnswers = 0;
+
+    const questions = [
+      {
+        q: "Qual é a capital da Islândia?",
+        options: ["Reykjavik", "Oslo", "Helsinque", "Estocolmo"],
+        answer: 0
+      },
+      {
+        q: "Quem escreveu 'Ulisses'?",
+        options: ["James Joyce", "Hemingway", "Proust", "Kafka"],
+        answer: 0
+      },
+      {
+        q: "Qual elemento tem símbolo 'W'?",
+        options: ["Tungstênio", "Estanho", "Zinco", "Prata"],
+        answer: 0
+      },
+      {
+        q: "Qual planeta tem o dia mais longo?",
+        options: ["Vênus", "Marte", "Mercúrio", "Júpiter"],
+        answer: 0
+      },
+      {
+        q: "O que significa 'mitocôndria'?",
+        options: ["Casa da energia", "Centro nervoso", "Célula vegetal", "RNA celular"],
+        answer: 0
+      }
+    ];
+
+    let currentQuestion;
+
+    function showStartAd() {
+      showAds(1, startGame, 30);
     }
 
-    // Função para iniciar o temporizador de 40 segundos
-    function startAdTimer() {
-      let secondsLeft = 40;
-      timerText.textContent = `Aguarde ${secondsLeft} segundos...`;
+    function startGame() {
+      document.getElementById("start").style.display = "none";
+      document.getElementById("game").style.display = "block";
+      nextQuestion();
+    }
 
-      const countdown = setInterval(() => {
-        secondsLeft--;
-        if (secondsLeft > 0) {
-          timerText.textContent = `Aguarde ${secondsLeft} segundos...`;
-        } else {
-          clearInterval(countdown);
-          adsWatched++;
-          statusText.textContent = `Anúncios assistidos: ${adsWatched}/${totalAds}`;
+    function showAds(times, callback, customTime = 15) {
+      if (times <= 0) {
+        callback();
+        return;
+      }
 
-          if (adsWatched < totalAds) {
-            loadNextAd(); // Carrega o próximo anúncio
-          } else {
-            adsContainer.innerHTML = "<p>Você assistiu todos os anúncios!</p>";
-            timerText.textContent = "Pronto!";
-            startButton.disabled = false; // Habilita o botão para iniciar o quiz
-          }
+      document.getElementById("ads").style.display = "block";
+      document.getElementById("game").style.display = "none";
+      const link = adLinks[Math.floor(Math.random() * adLinks.length)];
+      window.open(link, '_blank');
+
+      let seconds = customTime;
+      document.getElementById("timer").textContent = seconds;
+
+      const interval = setInterval(() => {
+        seconds--;
+        document.getElementById("timer").textContent = seconds;
+        if (seconds === 0) {
+          clearInterval(interval);
+          document.getElementById("ads").style.display = "none";
+          document.getElementById("game").style.display = "block";
+          showAds(times - 1, callback, customTime);
         }
       }, 1000);
     }
 
-    // Função para iniciar o quiz
-    function startQuiz() {
-      // Redireciona para a página do quiz
-      alert("Iniciando o quiz...");
-      loadQuestions();
+    function nextQuestion() {
+      currentQuestion = questions[Math.floor(Math.random() * questions.length)];
+      document.getElementById("qText").textContent = currentQuestion.q;
+      const options = document.getElementById("options");
+      options.innerHTML = "";
+      currentQuestion.options.forEach((opt, i) => {
+        const btn = document.createElement("button");
+        btn.textContent = opt;
+        btn.onclick = () => handleAnswer(i === currentQuestion.answer);
+        options.appendChild(btn);
+      });
     }
 
-    // Função para carregar as perguntas do quiz
-    function loadQuestions() {
-      // Exemplo simples de perguntas muito difíceis
-      const questions = [
-        { question: "Qual é a raiz quadrada de 256?", answer: "16" },
-        { question: "Qual é o valor de pi (aproximadamente)?", answer: "3.1416" },
-        { question: "Quem foi o primeiro presidente dos Estados Unidos?", answer: "George Washington" },
-        // Adicione mais perguntas difíceis aqui
-      ];
-
-      let currentQuestionIndex = 0;
-
-      function askQuestion() {
-        if (currentQuestionIndex < questions.length) {
-          const currentQuestion = questions[currentQuestionIndex];
-          const userAnswer = prompt(currentQuestion.question);
-          if (userAnswer === currentQuestion.answer) {
-            saldo += 0.01;  // Adiciona 0.01 para cada resposta correta
-            saldoText.textContent = `Saldo: $${saldo.toFixed(2)}`;
-            correctAnswers++;
-            if (correctAnswers === 5) {
-              alert("Você acertou 5 perguntas seguidas! Recompensa: $0.05.");
-              correctAnswers = 0; // Reinicia o contador de respostas corretas
-              loadAdsAfterQuiz();
-            }
-          } else {
-            alert("Resposta errada! Tente novamente.");
-            correctAnswers = 0; // Reinicia o contador de respostas corretas
-            loadAdsAfterQuiz();
-          }
-          currentQuestionIndex++;
+    function handleAnswer(correct) {
+      if (correct) {
+        score++;
+        correctStreak++;
+        correctAnswers++;
+        balance += 0.01;
+        if (correctStreak === 5) {
+          balance += 0.10;
+          document.getElementById("reward").textContent = "Bônus: +$0.10 por 5 acertos seguidos!";
+          correctStreak = 0;
         } else {
-          alert("Você terminou o quiz!"); 
+          document.getElementById("reward").textContent = "";
         }
-      }
 
-      askQuestion();
+        document.getElementById("score").textContent = score;
+        document.getElementById("balance").textContent = balance.toFixed(2);
+
+        if (correctAnswers % 2 === 0) {
+          showAds(2, nextQuestion);
+        } else {
+          nextQuestion();
+        }
+
+      } else {
+        correctStreak = 0;
+        correctAnswers = 0;
+        showAds(2, nextQuestion);
+      }
     }
 
-    // Função para carregar anúncios após o quiz
-    function loadAdsAfterQuiz() {
-      if (adsWatched % 5 === 0) {
-        alert("Hora de assistir a 2 anúncios!");
-        loadNextAd();
-        loadNextAd();
-      }
+    function withdraw() {
+      document.getElementById("withdraw").style.display = "block";
     }
 
-    // Inicia o primeiro anúncio
-    loadNextAd();
+    function submitWithdrawal() {
+      const email = document.getElementById("paypalEmail").value;
+      const message = document.getElementById("withdrawMessage");
+
+      if (!email || !email.includes("@")) {
+        message.textContent = "Digite um email válido do PayPal.";
+        return;
+      }
+
+      if (balance < 30.00) {
+        message.textContent = "Você precisa de pelo menos $30.00 para sacar.";
+        return;
+      }
+
+      message.textContent = `Pedido de saque enviado para ${email}. Você receberá em até 48h.`;
+      balance = 0.0;
+      document.getElementById("balance").textContent = balance.toFixed(2);
+    }
   </script>
 </body>
 </html>
