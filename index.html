@@ -27,7 +27,6 @@
     button:hover {
       background: #ddd;
     }
-    #timer { font-weight: bold; color: yellow; font-size: 20px; }
     input {
       padding: 10px;
       font-size: 16px;
@@ -80,7 +79,6 @@
     let correctAnswers = 0;
 
     const questions = [
-      // Antigas
       { q: "Quem foi o primeiro matemático a provar o Último Teorema de Fermat?", options: ["Andrew Wiles", "Gauss", "Pascal", "Euclides"], answer: 0 },
       { q: "Qual é a menor unidade indivisível da matéria?", options: ["Quark", "Átomo", "Fóton", "Próton"], answer: 0 },
       { q: "Quantos segundos tem 3 dias completos?", options: ["259200", "86400", "172800", "360000"], answer: 0 },
@@ -95,19 +93,7 @@
       { q: "Quem foi o criador da álgebra?", options: ["Al-Khwarizmi", "Newton", "Descartes", "Tales de Mileto"], answer: 0 },
       { q: "Qual o nome do experimento que confirmou a dualidade onda-partícula?", options: ["Experimento da Dupla Fenda", "Experimento de Rutherford", "Experimento de Stern-Gerlach", "Experimento de Michelson-Morley"], answer: 0 },
       { q: "Quantas dimensões existem segundo a Teoria das Cordas?", options: ["10", "3", "4", "6"], answer: 0 },
-      { q: "Qual é a raiz quadrada de 12321?", options: ["111", "121", "101", "131"], answer: 0 },
-      
-      // Difíceis novas
-      { q: "Qual número é conhecido como o 'número de ouro'?", options: ["1.618", "3.141", "2.718", "0.577"], answer: 0 },
-      { q: "O que é um número primo de Mersenne?", options: ["Forma 2ⁿ - 1", "Número par primo", "Número quadrado primo", "Primo ímpar"], answer: 0 },
-      { q: "Qual é a equação da Relatividade Geral de Einstein?", options: ["Gμν = 8πGTμν", "E = mc²", "F = ma", "V = IR"], answer: 0 },
-      { q: "O que representa o número de Avogadro?", options: ["Número de partículas por mol", "Volume de 1 mol de gás", "Carga do elétron", "Constante universal do gás"], answer: 0 },
-      { q: "Qual é o décimo dígito de pi depois da vírgula?", options: ["5", "9", "2", "3"], answer: 0 },
-      { q: "Quem formulou o paradoxo do gato que está vivo e morto ao mesmo tempo?", options: ["Schrödinger", "Bohr", "Einstein", "Heisenberg"], answer: 0 },
-      { q: "Qual a capital da Eritreia?", options: ["Asmara", "Cartum", "Adis Abeba", "Djibouti"], answer: 0 },
-      { q: "Quem propôs a equação de onda da mecânica quântica?", options: ["Schrödinger", "Dirac", "Heisenberg", "Feynman"], answer: 0 },
-      { q: "Em matemática, qual é o nome da função que retorna o menor inteiro maior ou igual a um número?", options: ["Teto (Ceil)", "Chão (Floor)", "Abs", "Round"], answer: 0 },
-      { q: "Quantos elementos existem atualmente na tabela periódica?", options: ["118", "112", "120", "108"], answer: 0 }
+      { q: "Qual é a raiz quadrada de 12321?", options: ["111", "121", "101", "131"], answer: 0 }
     ];
 
     let currentQuestion;
@@ -133,6 +119,7 @@
     }
 
     function nextQuestion() {
+      document.getElementById("question").style.display = "block"; // Correção importante aqui
       currentQuestion = questions[Math.floor(Math.random() * questions.length)];
       document.getElementById("qText").textContent = currentQuestion.q;
       const options = document.getElementById("options");
