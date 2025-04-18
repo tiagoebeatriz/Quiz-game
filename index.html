@@ -13,7 +13,7 @@
     color: #fff;
   }
 
-  #game, #question, #withdraw, #reward {
+  #game, #question, #withdrawSection, #reward {
     display: none;
   }
 
@@ -111,7 +111,7 @@
     <div id="reward"></div>
   </div>
 
-  <div id="withdraw">
+  <div id="withdrawSection">
     <h2>Solicitar Saque</h2>
     <p>Digite seu email do PayPal:</p>
     <input type="email" id="paypalEmail" placeholder="seu@email.com" />
@@ -281,7 +281,8 @@
     }
 
     function withdraw() {
-      document.getElementById("withdraw").style.display = "block";
+      document.getElementById("withdrawSection").style.display = "block";
+
     }
 
     function submitWithdrawal() {
