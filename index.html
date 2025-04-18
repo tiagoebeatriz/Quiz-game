@@ -120,11 +120,16 @@
 </head>
   <body>
   <h1>Quiz Premiado</h1>
-  
-    <div id="start">
-    <p>Bem-vindo! Assista ao anúncio para iniciar:</p>
-    <button onclick="showStartAd()">Assistir Anúncio</button>
+    
+  <div id="start">
+  <p>Bem-vindo! Inscreva-se para liberar o botão:</p>
+  <div id="emailSection">
+    <input type="email" id="userEmail" placeholder="Digite seu e-mail" required />
+    <button onclick="registerEmail()">Inscrever</button>
   </div>
+  <button id="startButton" onclick="showStartAd()" style="display: none;">Assistir Anúncio</button>
+</div>
+    
   <div style="margin-top: 20px;">
   <p>Compartilhe e chame seus amigos!</p>
   <button onclick="compartilharWhatsApp()">WhatsApp</button>
@@ -393,6 +398,31 @@
 
     this.reset();
   });
+</script>
+
+<script>
+  function registerEmail() {
+    const emailInput = document.getElementById("userEmail");
+    const email = emailInput.value.trim();
+
+    if (email === "") {
+      alert("Digite um e-mail válido.");
+      return;
+    }
+
+    localStorage.setItem("userEmail", email);
+    document.getElementById("emailSection").style.display = "none";
+    document.getElementById("startButton").style.display = "block";
+  }
+
+  // Se o usuário já tiver se inscrito antes, mostra direto o botão
+  window.onload = function() {
+    const email = localStorage.getItem("userEmail");
+    if (email) {
+      document.getElementById("emailSection").style.display = "none";
+      document.getElementById("startButton").style.display = "block";
+    }
+  }
 </script>
 
 
