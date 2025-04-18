@@ -1,6 +1,13 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+  <div id="newsletter" style="margin-top: 30px;">
+  <h3>Receba novidades e prêmios!</h3>
+  <input type="email" id="emailCapture" placeholder="Digite seu email" />
+  <button onclick="salvarEmail()">Cadastrar</button>
+  <p id="emailMsg"></p>
+</div>
+
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Quiz Premiado</title>
@@ -329,6 +336,15 @@
 
   gtag('config', 'G-DDGHFGBY60');
 </script>
+    <script type="text/javascript"
+  src="https://cdn.emailjs.com/dist/email.min.js">
+</script>
+<script type="text/javascript">
+  (function(){
+    emailjs.init("Tiagousd@gmail.com"); // Coloque seu User ID do EmailJS
+  })();
+</script>
+
 
 </body>
 </html>
