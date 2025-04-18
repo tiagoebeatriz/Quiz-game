@@ -152,23 +152,23 @@
     }
 
     function showAds(times, callback) {
-      if (times <= 0) {
-        callback();
-        return;
-      }
+  if (times <= 0) {
+    callback();
+    return;
+  }
 
-      const link = adLinks[Math.floor(Math.random() * adLinks.length)];
-      const win = window.open(link, "_blank");
+  const link = "https://phoampor.top/4/9227115";
+  window.location.href = link;
 
-      alert("Feche o anúncio para continuar.");
-
-      const checkClosed = setInterval(() => {
-        if (win.closed) {
-          clearInterval(checkClosed);
-          showAds(times - 1, callback);
-        }
-      }, 500);
+  // Após o usuário voltar do anúncio, continuar o jogo
+  const interval = setInterval(() => {
+    if (document.visibilityState === "visible") {
+      clearInterval(interval);
+      showAds(times - 1, callback);
     }
+  }, 1000);
+}
+
 
     function nextQuestion() {
       document.getElementById("question").style.display = "block";
