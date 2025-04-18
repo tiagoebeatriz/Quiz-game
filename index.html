@@ -44,6 +44,30 @@
     <p>Bem-vindo! Assista ao anúncio para iniciar:</p>
     <button onclick="showStartAd()">Assistir Anúncio</button>
   </div>
+  <div style="margin-top: 20px;">
+  <p>Compartilhe e chame seus amigos!</p>
+  <button onclick="compartilharWhatsApp()">WhatsApp</button>
+  <button onclick="compartilharTelegram()">Telegram</button>
+  <button onclick="copiarLink()">Copiar Link</button>
+</div>
+
+<script>
+  function compartilharWhatsApp() {
+    const url = encodeURIComponent(window.location.href);
+    window.open(`https://wa.me/?text=Jogue%20e%20ganhe%20dinheiro:%20${url}`, "_blank");
+  }
+
+  function compartilharTelegram() {
+    const url = encodeURIComponent(window.location.href);
+    window.open(`https://t.me/share/url?url=${url}&text=Jogue%20e%20ganhe%20dinheiro`, "_blank");
+  }
+
+  function copiarLink() {
+    navigator.clipboard.writeText(window.location.href);
+    alert("Link copiado!");
+  }
+</script>
+
 
   <div id="game">
     <div id="menu">
