@@ -1,16 +1,60 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <div id="newsletter" style="margin-top: 30px;">
-  <h3>Receba novidades e prêmios!</h3>
-  <input type="email" id="emailCapture" placeholder="Digite seu email" />
-  <button onclick="salvarEmail()">Cadastrar</button>
-  <p id="emailMsg"></p>
-</div>
-
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Quiz Premiado</title>
+  
+  <style>
+  .email-form-container {
+    max-width: 400px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    text-align: center;
+    font-family: Arial, sans-serif;
+  }
+
+  .email-form-container h2 {
+    margin-bottom: 15px;
+    color: #333;
+  }
+
+  .email-form-container input[type="email"] {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+  }
+
+  .email-form-container button {
+    background-color: #1e90ff;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+
+  .email-form-container button:hover {
+    background-color: #0073e6;
+  }
+</style>
+
+<div class="email-form-container">
+  <h2>Receba novidades por e-mail</h2>
+  <form id="emailForm">
+    <input type="email" name="email" placeholder="Digite seu e-mail" required />
+    <button type="submit">Inscrever</button>
+  </form>
+</div>
+
   <style>
   body {
     font-family: 'Segoe UI', sans-serif;
@@ -336,14 +380,24 @@
 
   gtag('config', 'G-DDGHFGBY60');
 </script>
-    <script type="text/javascript"
-  src="https://cdn.emailjs.com/dist/email.min.js">
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+<script>
+  emailjs.init("5Q145vWyHztgnn3MB"); // Seu public key
+
+  document.getElementById("emailForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    emailjs.sendForm("default_service", "template_8efnhr5", this)
+      .then(function(response) {
+        alert("Inscrição realizada com sucesso!");
+      }, function(error) {
+        alert("Erro ao enviar. Tente novamente.");
+      });
+
+    this.reset();
+  });
 </script>
-<script type="text/javascript">
-  (function(){
-    emailjs.init("Tiagousd@gmail.com"); // Coloque seu User ID do EmailJS
-  })();
-</script>
+
 
 
 </body>
