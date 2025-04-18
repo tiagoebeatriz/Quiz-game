@@ -13,39 +13,76 @@
   gtag('js', new Date());
 
   gtag('config', 'G-DDGHFGBY60');
-</script>
+  <style>
+  body {
+    font-family: 'Segoe UI', sans-serif;
+    text-align: center;
+    padding: 20px;
+    background: linear-gradient(to right, #f83600, #f9d423);
+    color: #fff;
+  }
 
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      text-align: center;
-      padding: 20px;
-      background: linear-gradient(to right, #f83600, #f9d423);
-      color: #fff;
-    }
-    #game, #question, #withdraw, #reward { display: none; }
+  h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px #00000055;
+  }
+
+  #game, #question, #withdraw, #reward {
+    display: none;
+  }
+
+  button {
+    padding: 14px 28px;
+    font-size: 18px;
+    margin: 10px;
+    background: #ffffff;
+    color: #222;
+    border: none;
+    border-radius: 10px;
+    font-weight: bold;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    transition: all 0.3s ease;
+  }
+
+  button:hover {
+    background: #ffecb3;
+    transform: scale(1.05);
+  }
+
+  input {
+    padding: 12px;
+    font-size: 16px;
+    width: 280px;
+    border-radius: 8px;
+    border: none;
+    margin-top: 10px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  }
+
+  #menu, #withdrawMessage, #reward {
+    font-size: 1.2rem;
+    margin-top: 15px;
+  }
+
+  #options button {
+    display: block;
+    width: 100%;
+    max-width: 400px;
+    margin: 10px auto;
+  }
+
+  @media (max-width: 600px) {
     button {
-      padding: 12px 24px;
-      font-size: 18px;
-      margin: 10px;
-      background: #fff;
-      color: #333;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-    button:hover {
-      background: #ddd;
-    }
-    input {
-      padding: 10px;
+      width: 90%;
       font-size: 16px;
-      width: 250px;
-      border-radius: 6px;
-      border: none;
-      margin-top: 10px;
     }
-  </style>
+
+    input {
+      width: 90%;
+    }
+  }
+</style>
 </head>
   <body>
   <h1>Quiz Premiado</h1>
