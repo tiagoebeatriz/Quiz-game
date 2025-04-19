@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Quiz Premiado</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f0f8ff;
+      color: #333;
+      text-align: center;
+      padding: 20px;
+    }
+
+    #quiz-container {
+      max-width: 600px;
+      margin: 0 auto;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      padding: 30px;
+    }
+
+    h1 {
+      color: #0066cc;
+    }
+
+    button {
+      background-color: #0066cc;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      margin: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #004999;
+    }
+
+    #question {
+      font-size: 20px;
+      margin-bottom: 20px;
+    }
+
+    .option {
+      display: block;
+      background-color: #e6f0ff;
+      color: #333;
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .option:hover {
+      background-color: #cce0ff;
+    }
+
+    #balance, #result {
+      font-size: 18px;
+      margin-top: 20px;
+    }
+
+    #withdraw {
+      display: none;
+      margin-top: 20px;
+    }
+
+    input[type="text"], input[type="email"] {
+      padding: 10px;
+      margin: 10px 0;
+      width: 80%;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="quiz-container">
+    <h1>Quiz Premiado</h1>
+
+    <div id="start">
+      <button onclick="startQuiz()">Iniciar Jogo</button>
+    </div>
+
+    <div id="game" style="display:none;">
+      <div id="menu">
+        <p id="question"></p>
+        <div id="options"></div>
+        <p id="result"></p>
+        <p id="balance">Saldo: $0.00</p>
+        <button onclick="withdrawRequest()">Sacar</button>
+      </div>
+    </div>
+
+    <div id="withdraw">
+      <h2>Solicitar Saque</h2>
+      <p>Preencha seus dados abaixo:</p>
+      <input type="text" id="name" placeholder="Nome completo" /><br/>
+      <input type="email" id="email" placeholder="E-mail" /><br/>
+      <button onclick="sendWithdrawal()">Enviar Pedido</button>
+    </div>
+  </div>
+
+  <script>
+    const perguntas = [
+      {
+        pergunta: "Qual o nome do presidente do Brasil em 2023?",
+        alternativas: ["Luiz Inácio Lula da Silva", "Dilma Rousseff", "Michel Temer", "Jair Bolsonaro"],
+        correta: 0
+      },
+      {
+        pergunta: "Qual a raiz quadrada de 144?",
+        alternativas: ["10", "11", "12", "14"],
+        correta: 2
+      },
+      {
+        pergunta: "Qual é o maior oceano do planeta?",
+        alternativas: ["Atlântico", "Índico", "Ártico", "Pacífico"],
+        correta: 3
+      },
+      {
+        pergunta: "Qual planeta é conhecido como 'Planeta Vermelho'?",
+        alternativas: ["Vênus", "Júpiter", "Marte", "Saturno"],
+        correta: 2
+      },
+      {
+        pergunta: "Quem escreveu 'Dom Casmurro'?",
+        alternativas: ["Machado de Assis", "José de Alencar", "Carlos Drummond", "Clarice Lispector"],
+        correta: 0
+      }
+      // Adicione suas perguntas difíceis aqui mantendo esse formato
+    ];
+
+    let saldo = 0;
+    let perguntaAtual = 0;
+
+    function embaralharAlternativas(pergunta) {
+      const alternativas = [...pergunta.alternativas];
+      const correta = pergunta.correta;
+      const corretaTexto = alternativas[correta];
+
+      for (let i = alternativas.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [alternativas[i], alternativas[j]] = [alternativas[j], alternativas[i]];
+      }
+
+      const novaCorreta = alternativas.indexOf(corretaTexto);
+      return { alternativas, correta: novaCorreta };
+    }
+
+    function startQuiz() {
+      document.getElementById('start').style.display = 'none';
+      document.getElementById('game').style.display = 'block';
+      mostrarPergunta();
+    }
+
+    function mostrarPergunta() {
+      const perguntaObj = perguntas[perguntaAtual];
+      const embaralhado = embaralharAlternativas(perguntaObj);
+
+      perguntaObj.alternativas = embaralhado.alternativas;
+      perguntaObj.correta = embaralhado.correta;
+
+      document.getElementById("question").textContent = perguntaObj.pergunta;
+      const optionsDiv = document.getElementById("options");
+      optionsDiv.innerHTML = "";
+
+      perguntaObj.alternativas.forEach((opcao, index) => {
+        const btn = document.createElement("button");
+        btn.textContent = opcao;
+        btn.className = "option";
+        btn.onclick = () => verificarResposta(index);
+        optionsDiv.appendChild(btn);
+      });
+    }
+
+    function verificarResposta(indiceSelecionado) {
+      const perguntaObj = perguntas[perguntaAtual];
+      const result = document.getElementById("result");
+
+      if (indiceSelecionado === perguntaObj.correta) {
+        saldo += 0.10;
+        result.textContent = "Resposta correta! Você ganhou $0.10";
+      } else {
+        result.textContent = "Resposta errada! Você não ganhou nada.";
+      }
+
+      document.getElementById("balance").textContent = `Saldo: $${saldo.toFixed(2)}`;
+
+      perguntaAtual++;
+      if (perguntaAtual < perguntas.length) {
+        setTimeout(() => {
+          result.textContent = "";
+          mostrarPergunta();
+        }, 1500);
+      } else {
+        result.textContent = "Fim do quiz!";
+      }
+    }
+
+    function withdrawRequest() {
+      document.getElementById('game').style.display = 'none';
+      document.getElementById('withdraw').style.display = 'block';
+    }
+
+    function sendWithdrawal() {
+      const nome = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const valor = saldo.toFixed(2);
+
+      const corpoEmail = `Pedido de saque:\nNome: ${nome}\nEmail: ${email}\nValor: $${valor}`;
+      window.location.href = `mailto:thiagoebeatriz2012@gmail.com?subject=Pedido de Saque&body=${encodeURIComponent(corpoEmail)}`;
+    }
+  </script>
+
+</body>
+</html>
