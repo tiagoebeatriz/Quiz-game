@@ -151,7 +151,7 @@
 
     function showQuestion() {
       const q = questions[currentQuestion];
-      document.getElementById("question").innerText = q.question;
+      document.getElementById("question").innerText = q.q;
       const optionsDiv = document.getElementById("options");
       optionsDiv.innerHTML = "";
       q.options.forEach((opt, i) => {
