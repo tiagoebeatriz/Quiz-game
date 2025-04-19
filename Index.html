@@ -196,14 +196,19 @@
     }
 
     function showAd(callback) {
-      const ad = document.getElementById("adFrame");
-      ad.src = "<script type='text/javascript' src='//rodesquad.com/ec/e8/2f/ece82f79eea138be263c26247a41023e.js'></script>";
-      ad.style.display = "block";
-      setTimeout(() => {
-        ad.style.display = "none";
-        callback();
-      }, 30000);
-    }
+  const adContainer = document.getElementById("adContainer");
+  adContainer.innerHTML = '';
+  const script = document.createElement("script");
+  script.src = "//rodesquad.com/ec/e8/2f/ece82f79eea138be263c26247a41023e.js";
+  adContainer.appendChild(script);
+  adContainer.style.display = "block";
+  
+  setTimeout(() => {
+    adContainer.style.display = "none";
+    callback();
+  }, 30000);
+}
+
 
     function withdraw() {
       const email = prompt("Digite seu email PayPal:");
